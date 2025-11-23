@@ -1,0 +1,2088 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Türkiye Jokey Kulübü Dernegi At Yetistiriciligi Ve Yarislari Iktisadi Isletmesi" />
+    <meta name="keywords" content="Türkiye Jokey Kulübü, AtYetistiriciligi, Yaris, hipodrom" />
+    <meta name="Author" content="TJK, tjk.org" />
+
+    
+
+    <title>Koşu Sorgulama</title>
+
+    <link href="/Content/font.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://medya-cdn.tjk.org/medyaftp/Content/box.css" />
+    <link href="https://medya-cdn.tjk.org/medyaftp/Content/tjk_30.css?v=2" rel="stylesheet" type="text/css"  />
+    <link href="https://medya-cdn.tjk.org/medyaftp/Content/columnwidths.css?v=7" rel="stylesheet" type="text/css" />
+
+    <!--[if IE 7]>
+           <link href="/Content/tjk-ie7.css?v=1" rel="stylesheet"
+    type="text/css" />
+           <![endif]-->
+    <!--[if lte IE 6]>
+      <link href="/Content/tjk-ie6.css"
+    rel="stylesheet" type="text/css" />
+           <![endif]-->
+    <!--[if IE 8]>
+      <link href="/Content/tjk-ie8.css"
+    rel="stylesheet" type="text/css" />
+           <![endif]-->
+    <link href="https://medya-cdn.tjk.org/medyaftp/Content/datepicker.css" rel="stylesheet" type="text/css" />
+    <link href="https://medya-cdn.tjk.org/medyaftp/Content/form.css" rel="stylesheet" type="text/css" />
+
+    <!--Banners-->
+    <style type="text/css">
+
+        .raceWeatherGreen {
+            border: 2px solid green;
+            padding: 5px;
+            margin-right: 4px;
+            color: green;
+        }
+
+        .raceWeatherBrown {
+            border: 2px solid #996633;
+            padding: 5px;
+            margin-right: 4px;
+            color: #996633;
+        }
+
+        #loginesBox {
+            width: 160px;
+            height: 600px;
+            position: relative;
+            margin-top: 20px;
+            float: left;
+        }
+    </style>
+    <!--Banners-->
+
+
+        <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery-1.7.min.js"></script>
+
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.idTabs.min.js?v=1"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.jquerytools.min.js?v=1"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/customV5.js?v=1"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/init.js?v=5efc2986-6dca-4551-846a-9977d1009a58"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.select-replacr.js?v=1"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.placeholder.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/uni-form-validation.jquery.min.js?v=2"></script>
+        <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/dateTR.js"></script>
+        <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/tr.js?v=2"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.ticker.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.captify.min.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.datePicker.js?v=1"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.rotator.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/selectivizr.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jquery.showoff.js?v=1"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/jqprint.js"></script>
+    <link href="https://medya-cdn.tjk.org/medyaftp/Content/images/favicon.ico" rel="SHORTCUT ICON" />
+
+
+        <link rel="stylesheet" type="text/css" href="https://medya-cdn.tjk.org/medyaftp/Content/Middle-CornerLogoStyle.css?v=1" />
+
+    <script type="text/javascript">
+
+        function submitSuccesss() {
+            try {
+                submitTiming();
+            } catch (err) { }
+        }
+
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async=async src="https://www.googletagmanager.com/gtag/js?id=UA-21139746-2"></script>
+
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-21139746-2', { 'sample_rate': 5 });
+    </script>
+
+    <script type="text/javascript">
+        function closeBox(toClose) {
+            document.getElementById(toClose).style.display = "none";
+            setCookie(toClose, "closed", 365);
+        }
+        function setCookie(cName, value, expiredays) {
+            var expDate = new Date();
+            expDate.setDate(expDate.getDate() + expiredays);
+            document.cookie = cName + "=" + escape(value) +
+                ";expires=" + expDate.toGMTString();
+        }
+        function loadMsg(msgClass) {
+            msg = document.getElementsByTagName("div");
+            for (i = 0; i < msg.length; i++) {
+                if (msg[i].className == msgClass) {
+                    if (document.cookie.indexOf(msg[i].id) == -1) {
+                        msg[i].style.display = "block";
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function isIpad() {
+            const ua = window.navigator.userAgent;
+            if (ua.indexOf('iPad') > -1) {
+                return true;
+            }
+            if (ua.indexOf('Macintosh') > -1) {
+                try {
+                    document.createEvent("TouchEvent");
+                    return true;
+                } catch (e) { }
+            }
+
+            return false;
+        }
+    </script>
+
+</head>
+
+<body onload="loadMsg('msgbox');">
+
+
+
+    <!-- Kulakçık başlangıç-->
+        <script type="text/javascript">
+            //$(document).ready(function () {
+
+            //    var ua = navigator.userAgent;
+            //    if (ua.indexOf("Android") != -1
+            //        || ua.indexOf("PlayBook") != -1
+            //        || ua.indexOf("Linux") != -1
+            //        || ua.indexOf("BlackBerry") != -1
+            //        || ua.indexOf("iPhone") != -1
+            //        || ua.indexOf("BB10") != -1
+            //        || ua.indexOf("Windows Phone") != -1
+            //        || ua.indexOf("ASUS") != -1) {
+
+            //        $("#gaziBanner").css("display", "none");
+            //        $("#GaziSayacBanner").css("display", "block");
+            //        $("#countdowncontainer").css("margin-top", "16px");
+            //    }
+            //    else {
+            //        $("#gaziBanner").css("display", "block");
+            //        $("#GaziSayacBanner").css("display", "none");
+            //        $("#countdowncontainer").css("margin-top", "30px");
+            //    }
+
+            //    $("#pageflip").hover(function () {
+            //        $("#pageflip img , .msg_block").stop().animate({
+            //            width: '370px',
+            //            height: '170px'
+            //        }, 500);
+            //        $(" .msg_block").stop().animate({
+            //            width: '338px',
+            //            height: '160px'
+            //        }, 500);
+            //    }, function () {
+            //        $("#pageflip img").stop().animate({
+            //            width: '175px',
+            //            height: '135px'
+            //        }, 220);
+            //        $(".msg_block").stop().animate({
+            //            width: '170px',
+            //            height: '130px'
+            //        }, 200);
+            //    });
+            //});
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                var ua = navigator.userAgent;
+                if (ua.indexOf("Mobile") > -1 || ua.indexOf("iPad") > -1 || ua.indexOf("Android") > -1 || isIpad()) {
+
+                    $("#gaziBanner").css("display", "none");
+                    $("#GaziSayacBanner").css("display", "block");
+                    $("#countdowncontainer").css("margin-top", "16px");
+                }
+                else {
+                    $("#gaziBanner").css("display", "block");
+                    $("#GaziSayacBanner").css("display", "block");
+                    $("#countdowncontainer").css("margin-top", "30px");
+                }
+
+                $("#pageflip").hover(function () {
+                    $("#pageflip img , .msg_block").stop().animate({
+                        width: '370px',
+                        height: '170px'
+                    }, 500);
+                    $(" .msg_block").stop().animate({
+                        width: '338px',
+                        height: '160px'
+                    }, 500);
+                }, function () {
+                    $("#pageflip img").stop().animate({
+                        width: '175px',
+                        height: '135px'
+                    }, 220);
+                    $(".msg_block").stop().animate({
+                        width: '170px',
+                        height: '130px'
+                    }, 200);
+                });
+            });
+
+        </script>
+        <div id="gaziBanner">
+            <div id="pageflip">
+                <a target="_blank" href="https://gazi.tjk.org/">
+                    <img src="https://medya-cdn.tjk.org/medyaftp/page/page_flip.png" id="gaziPageFlipImg" alt="Mikrofon Sende" />
+                </a>
+            </div>
+            <div class="msg_block" style="">
+
+            </div>
+        </div>
+    <!-- Kulakçık bitiş-->
+
+
+    <div class="tjk">
+
+        <div class="container_24 ">
+
+            <div class="grid_13 home">
+                <a href="/TR/YarisSever/YarisSever/Index" class="logo"></a>
+            </div>
+
+            <div class="grid_11">
+                   <div id="topGaziLogo">
+                        <img src="https://medya-cdn.tjk.org/medyaftp/site_img/99GAZI_LOGO.PNG" />
+                    </div>
+                    <div>
+                        <div id="countdowncontainer"></div>
+                        <div id="GaziSayacBanner">
+                            <a href="https://gazi.tjk.org/" target="_blank">
+                                <span class="kulakcikSpan">
+                                    
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <style type="text/css">
+                            .i18n {
+                                margin-top: unset;
+                                margin-left: unset;
+                                margin-top: 32px;
+                            }
+                        </style>
+                    <script>
+                        function diffGetTime(date1, date2) {
+                            return date2.getTime() - date1.getTime();
+                        }
+
+                    </script>
+                    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/GaziSayacScript.js?v=1"></script>
+                    <script type="text/javascript">
+
+                        var futuredate = new cdtime("countdowncontainer", "June 29, 2025 17:15:00")
+                        futuredate.displaycountdown("days", formatresults)
+                    
+                        var currentyear = new Date().getFullYear();
+
+                        function Getfuturedate(date1, date2) {
+                            return futuredate;
+                        }
+
+                    </script>
+
+                <div class="i18n">
+                        <div style="right:0; position:absolute;">
+                            <a href="https://www.tjk.org/TR/YarisSever/YarisSever/Index">
+                                Ana Sayfa
+                            </a>
+
+                            <span style="color: white">|</span>
+
+                            <a href='/EN/YarisSever/Query/Page/KosuSorgulama'>English</a>
+
+                            <span style="color: white">|</span>
+
+                            <a href="https://www.tjk.org/TR/YarisSever/Static/Page/SiteMap">
+                                Site Haritası
+                            </a>
+                            <span style="color: white">|</span>
+
+                            <a href="https://www.tjk.org/TR/YarisSever/Static/Page/BizeUlasin">
+                                Bize Ulaşın
+                            </a>
+                        </div>
+                </div>
+
+                    <script>
+
+                        var _counterTime = Getfuturedate();
+                        let control_time = 1;
+                        if (_counterTime.currentTime != undefined && _counterTime.targetdate != undefined) {
+                            control_time = diffGetTime(_counterTime.currentTime, _counterTime.targetdate);
+                        }
+                        if (control_time <= 0) {
+                            $('.i18n').css("margin-top", "82px");
+                        }
+
+                    </script>
+
+                    <div>
+                        <div style="float: left; margin-top: -8px !important;">
+                            <ul>
+                                <li>
+                                    <a href="https://www.facebook.com/T%C3%BCrkiye-Jokey-Kul%C3%BCb%C3%BC-420846981602324/" target="_blank"><img style="float:left;margin:10px 1px;width:25px; height:25px;" src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/facebook_1.png" class="" /></a>
+
+                                    <a href="https://twitter.com/_tjk_" target="_blank"><img style="float:left;margin:10px 1px;width:25px; height:25px;" src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/twitter_1.png" class="" /></a>
+
+                                    <a href="https://www.youtube.com/channel/UCNLO4lpteIloZ4IKb9L2DoA" target="_blank"> <img style="float:left;margin:10px 1px;width:25px; height:25px;" src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/youtube_1.png" class="" /></a>
+
+                                    <a href="https://www.instagram.com/turkiyejokeykulubu/" target="_blank">  <img style="float:left;margin:10px 1px;width:25px; height:25px;" src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/instagram_1.png" class="" /></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="nav" style="float:right; margin-top:0px !important;">
+                            <ul>
+                                <li>
+                                    <a href="/TR/Kurumsal/Kurumsal" class="tab-1">KURUMSAL</a>
+                                </li>
+                                <li>
+                                    <a href="/TR/YarisSever/YarisSever/Index" class="selected tab-2">YARIŞSEVER</a>
+                                </li>
+                                <li>
+                                    <a href="/TR/Yetistiricilik/Yetistiricilik" class="tab-3">YARIŞ ve YETİŞTİRİCİLİK</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+            </div>
+
+
+            <div class="clear">&nbsp;</div>
+            <div class="clear">&nbsp;</div>
+
+            <div class="push_4 grid_20 hot">
+                
+            </div>
+
+                <div>
+                    <div class="clear">
+                        &nbsp;
+                    </div>
+
+
+                    <div>
+
+
+                            <style type="text/css">
+                                #loginesBox {
+                                    /*z-index: -1 !important;*/
+                                    height: 0px;
+                                }
+                            </style>
+
+                            <div>
+                                <div id="loginesBox">
+                                    <a target="_blank" href="https://ebayi.tjk.org/bahis-yap-advanced">
+                                         <img style="display:none;" src="https://medya-cdn.tjk.org/medyaftp/img/sabitihtimalliikilibahis.gif" /> 
+                                    </a>
+                                </div>
+                            </div>
+                            <style type="text/css">
+
+                                @media screen and (max-device-width: 1030px) {
+
+                                    .footerText {
+                                        width: 1300px !important;
+                                    }
+
+                                    .news-alert {
+                                        width: 1300px !important;
+                                    }
+
+                                    .footer-container {
+                                        width: 1300px !important;
+                                    }
+                                }
+
+
+                                @media screen and (max-device-width: 1300px) {
+
+                                    .tjk {
+                                        width: 1300px !important;
+                                    }
+
+                                    .news-alert {
+                                        width: 1300px !important;
+                                    }
+                                }
+
+
+                                .container_24 {
+                                    width: 1300px !important;
+                                }
+
+                                .container_24_en {
+                                    width: 1300px !important;
+                                }
+
+                                .container_24 .grid_13 {
+                                    width: 670px !important;
+                                }
+
+                                .container_24 .prefix_7 {
+                                    padding-left: 310px !important;
+                                }
+
+                                .container_24 .push_4 {
+                                    left: 310px !important;
+                                }
+
+                                a.logo {
+                                    margin-left: 150px !important;
+                                }
+
+                                #footer {
+                                    margin: 0 5px 0 135px !important;
+                                }
+                            </style>
+
+                        <div class="pane" id="yarissever" style="float:left">
+<div class="grid_20 prefix_4">
+                    <div class="menu">
+                        <div class="menus">
+                            <div class="menu_tabs">
+                                <a href="#tjk" class="menu-head">TJK</a>
+																<a href="#gunluk" class="menu-head">Günlük Bilgiler</a>
+																<a href="#report" class="menu-head">Raporlar</a>
+																<a href="#sorgu" class="menu-head">Sorgulama</a>
+																<a href="#stat" class="menu-head">İstatistikler</a>																
+																<a target="_blank" href="https://ebayi.tjk.org/" class="menu-head">Bahis Yap</a>
+                            </div>
+                            <form class="search" name="search">
+                            <input type="text" id="search-phrase" placeholder="Arama metni giriniz." />
+                            <select name="search-options" id="search-options">
+                                <option value="0" selected="selected">At İsmi İle</option>
+                                <option value="1">Anne Adı İle</option>
+                                <option value="2">Baba Adı İle</option>
+                                <option value="3">Sahip Adı İle</option>
+                                <option value="4">Jokey Adı İle</option>
+                                <option value="5">Yetiştirici Adı İle</option>
+                                <option value="6">Antrenör Adı İle</option>
+                            </select>
+                            <input type="submit" name="search-submit" value="ARA" id="search-button" />
+                            </form>
+                            <div class="clear">
+                                &nbsp;</div>
+                        </div>
+                        <ul id="tjk" class="menu-items">
+                          
+                            <div class="menu-col">
+                                <li><a href="/TR/Kurumsal/Static/Page/Tarihce">Tarihçe</a></li>
+                                <li><a href="/TR/Kurumsal/Static/Page/Baskanlarimiz">Başkanlarımız</a></li>
+                                <li><a href="/TR/Kurumsal/Static/Page/YonetimKurulu">Yönetim Kurulu</a></li>
+
+                            </div>
+                            <div class="menu-col">
+
+                                <li><a href="/TR/Kurumsal/Static/Page/Hipodromlar">Hipodromlar</a></li>
+                                <li><a href="/TR/YarisSever/Static/Page/HaraVeAsimIstasyonlari">Hara ve Aşım İstasyonları</a></li>
+                                <li><a href="/TR/YarisSever/Static/Page/AprantiEgitimMerkezi">Ekrem Kurt Aprt. Eğitim</a></li>
+                                <li><a href="/TR/Yarissever/Static/Page/SanalBayiler">Sanal Bayiler</a></li>
+
+                            </div>
+
+                            <div class="menu-col">
+                                <li><a href="/TR/YarisSever/Static/Page/Aygirlar">Aygırlar</a></li>
+                                <li><b><a href="/TR/Yarissever/Query/Page/Bayiler">Bayiler</a></b></li>
+                                <li><a href="/TR/YarisSever/Static/Page/Bahisler">Bahisler</a></li>
+                     
+                            </div>
+
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/YillikYarisProgramiCoklu">Yıllık Yarış Prog.</a></b></li>
+                                <li><a href="/TR/YarisSever/Query/Page/OnemliKosular">Önemli Koşular</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/TumOnemliKosular">Tüm İsimli Koşular</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/UluslarArasiKosuSonuclari">Uluslararası Koşular</a></li>
+                            </div>
+
+                            <div class="menu-col">
+
+                                <li><a href="/TR/YarisSever/Static/Page/GenelHukumler">Genel Hükümler</a></li>
+                                <li><a href="/TR/YarisSever/Static/Page/KanunYonetmelik">Kanun ve Yönetmelikler</a></li>
+                                <li><b><a href="/Kvkk">KVKK</a></b></li>
+
+                            </div>
+
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/BasindaBiz">Basında Biz</a></b></li>
+                                <li><b><a href="/TR/Kurumsal/Form/Beyazmasa">Beyaz Masa</a></b></li>
+                                <li><b><a href="/TR/Kurumsal/Static/Page/BizeUlasin">Bize Ulaşın</a></b></li>
+
+                            </div>
+
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Static/Page/TjkninSesi">TJK'nın Sesi</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Static/Page/YarisVeYetistiricilikKitabi">Yarış ve Yetiştiricilik</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Static/Page/Takvim">Takvim</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Static/Page/Duvarkagidi">Duvar Kağıtları</a></b></li>
+                            </div>
+
+
+                        </ul>
+                            <ul id="gunluk" class="menu-items">
+                                <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Info/Page/GunlukYarisProgrami">Yarış Programı</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Info/Page/GunlukYarisSonuclari">Yarış Sonuçları</a></b></li>
+                                <li>  <b><a href="/TR/YarisSever/Info/SabitIhtimalliOyunProgrami"><span>Sabit İhtimalli Yarış Programı</span> <p class="new_label_animation">Yeni</p></a></b></li>
+
+
+</div>
+                            <div class="menu-col">
+                                <li><a href="/TR/YarisSever/Info/Page/Kayitlar">Kayıtlar</a></li>                                
+                                <li><a href="/TR/YarisSever/Info/Page/Deklareler">Deklareler</a></li>
+                            </div>
+							<div class="menu-col">
+                               <li><b><a href="/TR/YarisSever/Query/Page/YillikYarisProgramiCoklu">Yıllık Yarış Programı</a></b></li>
+                               <li><b><a href="/TR/YarisSever/Query/Page/SatilikAtlar">Satılık Atlar</a></b></li>
+                            </div>
+
+							
+                        </ul>
+                        <ul id="sorgu" class="menu-items">
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/Atlar?QueryParameter_OLDUFLG=on">At Sorgulama</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/Orijin">Orijin Sorgulama</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/KosuSorgulama">Koşu Sorgulama</a></b></li>
+                            </div>
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliAtSahip">Cezalı At Sahibi</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliJokey">Cezalı Jokey</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliAt">Cezalı At</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliAntronor">Cezalı Antrenör</a></b></li>
+
+                            </div>
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliAtSahipVekili">Cezalı At Sahibi Vekili</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliSeyisveSeyisBasi">Cezalı Seyis ve SeyisBaşı</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/CezaliSairGorevli">Cezalı Sair Görevli</a></b></li>
+                                </div>
+                            <div class="menu-col">
+                                
+                                <li><b><a href="/TR/YarisSever/Query/Page/RaporluJokey">Raporlu Jokey</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/JokeyOlmayaKalanYarisSayisi">Jokey Olmaya Kalan</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/HandikapPuanlari">Handikap Puanları</a></b></li>
+                            </div>
+                            <div class="menu-col">
+                                <li><a href="/TR/YarisSever/Query/Page/UluslarArasiKosuSonuclari">Uluslararası Koşu</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/UzunVadeliKosu">Uzun Vadeli Koşu</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/YeniDoganTay">Yeni Doğan Tay</a></li>
+                                
+                            </div>
+
+                            <div class="menu-col">
+
+                                
+                                <li><a href="/TR/YarisSever/Query/Page/YasakliMaddeMuayeneSonuc">Yasaklı Madde Muayene Sonuç</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/AhirTahsis">Ahır Tahsis</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/AsimMuracatDetay">Aşım Müracaatları</a></li>
+
+                            </div>
+                        </ul>
+                        <ul id="stat" class="menu-items">
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/AtIstatistikleri">At</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/JokeyIstatistikleri">Jokey</a></b></li>
+                                <li><a href="/TR/YarisSever/Query/Page/AntrenorIstatistikleri">Antrenör</a></li>
+                                
+                            </div>
+                            <div class="menu-col">
+                                <li><a href="/TR/YarisSever/Query/Page/SahipIstatistikleri">Sahip</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/YetistiriciIstatistikleri">Yetiştirici</a></li>
+                            </div>
+                            <div class="menu-col">
+                                <li><a href="/TR/YarisSever/Query/Page/AygirIstatistikleri">Aygır</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/KisrakIstatistikleri">Kısrak</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/KisrakBabasi">Kısrak Babası</a></li>
+                            </div>
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/DereceIst">Derece</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/DetayliDereceIst">Detaylı Derece</a></b></li>
+                                <li><b><a href="/TR/YarisSever/Query/Page/Son800Ist">Son 800</a></b></li>
+                            </div>
+                            <div class="menu-col">
+                                <li><a href="/TR/YarisSever/Static/Page/GenelIstatistikler">Genel İstatistikler</a></li>
+                                <li><a href="/TR/YarisSever/Static/Page/AyrintiliIstatistikler">Ayrıntılı İstatistikler</a></li>
+                                <li><a href="/TR/YarisSever/Query/Page/IdmanIstatistikleri">İdman İstatistikleri</a></li>
+                            </div>
+                        </ul>
+                        <ul id="report" class="menu-items">
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/PistBilgileri">Pist Bilgileri</a></b></li>
+                            </div>
+                            <div class="menu-col">
+                                <li><b><a href="/TR/YarisSever/Query/Page/KomiserRaporlari">Komiser Raporları</a></b></li>
+			                </div>
+                        </ul>
+                        <ul id="bahis-menu" class="menu-items">
+                            <div class="menu-col">
+                             <li><a target="_blank" href="https://e-bayi.tjk.org/">Bahis Yap</a></li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clear">
+                    &nbsp;</div>
+                            <!--  -->
+<h2 class="tableTitle">Koşu Sorgulama</h2>
+<div class="printthis">
+    <a href="#" onclick='$("#dataDiv").jqprint(); return false;'>
+        Yazdır
+    </a>
+</div>
+
+<input id="raceStartTime" name="raceStartTime" time="10:30:00" type="hidden" value="10:30:00" />
+
+<form Class="query" action="/TR/YarisSever/Query/Data/KosuSorgulama" data-ajax="true" data-ajax-complete="onQueryUpdate" data-ajax-loading="#table-loading" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-success="submitSuccesss" data-ajax-update="#dataDiv" id="ajaxForm" method="post"><input Class="txt datepicker" Style="" id="QueryParameter_Tarih_Start" name="QueryParameter_Tarih_Start" placeholder="Tarih Başlangıç" type="text" value="" /><input Class="txt datepicker" Style="" id="QueryParameter_Tarih_End" name="QueryParameter_Tarih_End" placeholder="Tarih Bitiş" type="text" value="" /><select Class="autopostbackDropdown filter " Style="" id="QueryParameter_SehirId" name="QueryParameter_SehirId" parentParameter="" parentParameter2="" placeholder="Tüm Şehirler"><option selected="selected" value="-1">T&#252;m Şehirler</option>
+<option value="1">Adana</option>
+<option value="5">Ankara</option>
+<option value="10">Antalya</option>
+<option value="4">Bursa</option>
+<option value="8">Diyarbakır</option>
+<option value="7">Elazığ</option>
+<option value="3">İstanbul</option>
+<option value="2">İzmir</option>
+<option value="9">Kocaeli</option>
+<option value="6">Şanlıurfa</option>
+</select><select Class="autopostbackDropdown filter " Style="" id="QueryParameter_IrkId" name="QueryParameter_IrkId" parentParameter="" parentParameter2="" placeholder="Tüm Irklar"><option selected="selected" value="-1">T&#252;m Irklar</option>
+<option value="2">Arap</option>
+<option value="1">İngiliz</option>
+</select><select Class="autopostbackDropdown multiFilter " Style="" id="QueryParameter_GrupId" multiple="multiple" name="QueryParameter_GrupId" parentParameter="" parentParameter2="" placeholder="Tüm Koşu Gurupları"><option value="2">2 ve Yukarı İngilizler</option>
+<option value="1">2 Yaşlı İngilizler</option>
+<option value="7">3 ve Yukarı Araplar</option>
+<option value="4">3 ve Yukarı İngilizler</option>
+<option value="6">3 Yaşlı Araplar</option>
+<option value="3">3 Yaşlı İngilizler</option>
+<option value="9">4 ve Yukarı Araplar</option>
+<option value="5">4 ve Yukarı İngilizler</option>
+<option value="8">4 Yaşlı Araplar</option>
+<option value="10">5 ve Yukarı Araplar</option>
+</select><select Class="autopostbackDropdown multiFilter " Style="" id="QueryParameter_KosuCinsiId" multiple="multiple" name="QueryParameter_KosuCinsiId" parentParameter="" parentParameter2="" placeholder="Tüm Koşu Cinsleri"><option value="52">A 2</option>
+<option value="53">A 3</option>
+<option value="28">Amat&#246;r</option>
+<option value="69">Amat&#246;r Binici</option>
+<option value="1">G 1</option>
+<option value="2">G 2</option>
+<option value="3">G 3</option>
+<option value="64">G3 Handikap</option>
+<option value="57">Grup</option>
+<option value="56">Handikap</option>
+<option value="13">Handikap 13</option>
+<option value="14">Handikap 14</option>
+<option value="15">Handikap 15</option>
+<option value="16">Handikap 16</option>
+<option value="17">Handikap 17</option>
+<option value="59">Handikap 21</option>
+<option value="60">Handikap 22</option>
+<option value="61">Handikap 24</option>
+<option value="30">KADIN AMAT&#214;R BİNİCİ</option>
+<option value="35">KADIN BİNİCİ</option>
+<option value="62">Kısa Vade Handikap 22</option>
+<option value="63">Kısa Vade Handikap 24</option>
+<option value="31">KV-10</option>
+<option value="32">KV-11</option>
+<option value="18">KV-18</option>
+<option value="21">KV-21</option>
+<option value="22">KV-22</option>
+<option value="23">KV-23</option>
+<option value="24">KV-24</option>
+<option value="25">KV-25</option>
+<option value="9">KV-6</option>
+<option value="10">KV-7</option>
+<option value="11">KV-8</option>
+<option value="12">KV-9</option>
+<option value="26">Maiden</option>
+<option value="68">Maiden Opsiyonel Satış (YD)</option>
+<option value="67">Maiden Satış (YD)</option>
+<option value="54">Maiden/Satış</option>
+<option value="66">Opsiyonel Satış (YD)</option>
+<option value="65">Satış (YD)</option>
+<option value="41">SATIŞ 1</option>
+<option value="42">SATIŞ 2</option>
+<option value="43">SATIŞ 3</option>
+<option value="44">SATIŞ 4</option>
+<option value="58">Şartlı</option>
+<option value="4">ŞARTLI 1</option>
+<option value="29">ŞARTLI 10</option>
+<option value="27">ŞARTLI 11</option>
+<option value="33">ŞARTLI 12</option>
+<option value="55">ŞARTLI 19</option>
+<option value="5">ŞARTLI 2</option>
+<option value="6">ŞARTLI 3</option>
+<option value="7">ŞARTLI 4</option>
+<option value="8">ŞARTLI 5</option>
+<option value="50">YurtDışıBoş</option>
+</select><select Class="autopostbackDropdown filter " Style="" id="QueryParameter_Cinsiyet" name="QueryParameter_Cinsiyet" parentParameter="" parentParameter2="" placeholder="Tüm Cinsiyetler"><option selected="selected" value="-1">T&#252;m Cinsiyetler</option>
+<option value="2">Dişi</option>
+<option value="4">Dişi ve Karışık</option>
+<option value="1">Erkek</option>
+<option value="3">Erkek ve Karışık</option>
+</select>            <div class="clear"></div>
+<select Class="autopostbackDropdown multiFilter " Style="" id="QueryParameter_APRANTIKODU" multiple="multiple" name="QueryParameter_APRANTIKODU" parentParameter="" parentParameter2="" placeholder="Apr. Koş. Cinsi"><option value="4">Yamak-0</option>
+<option value="1">Yamak-1</option>
+<option value="2">Yamak-2</option>
+<option value="3">Yamak-3</option>
+</select><select Class="autopostbackDropdown multiFilter " Style="" id="QueryParameter_Mesafe" multiple="multiple" name="QueryParameter_Mesafe" parentParameter="" parentParameter2="" placeholder="Mesafe"><option value="600">600</option>
+<option value="800">800</option>
+<option value="900">900</option>
+<option value="950">950</option>
+<option value="1000">1000</option>
+<option value="1100">1100</option>
+<option value="1200">1200</option>
+<option value="1207">1207</option>
+<option value="1300">1300</option>
+<option value="1400">1400</option>
+<option value="1408">1408</option>
+<option value="1440">1440</option>
+<option value="1500">1500</option>
+<option value="1600">1600</option>
+<option value="1609">1609</option>
+<option value="1690">1690</option>
+<option value="1700">1700</option>
+<option value="1800">1800</option>
+<option value="1810">1810</option>
+<option value="1850">1850</option>
+<option value="1900">1900</option>
+<option value="1920">1920</option>
+<option value="1950">1950</option>
+<option value="2000">2000</option>
+<option value="2100">2100</option>
+<option value="2200">2200</option>
+<option value="2300">2300</option>
+<option value="2400">2400</option>
+<option value="2403">2403</option>
+<option value="2410">2410</option>
+<option value="2413">2413</option>
+<option value="2485">2485</option>
+<option value="2600">2600</option>
+<option value="2800">2800</option>
+<option value="3000">3000</option>
+<option value="3200">3200</option>
+<option value="3400">3400</option>
+<option value="3600">3600</option>
+<option value="4225">4225</option>
+</select><select Class="autopostbackDropdown filter " Style="" id="QueryParameter_PistId" name="QueryParameter_PistId" parentParameter="" parentParameter2="" placeholder="Tüm Pistler"><option selected="selected" value="-1">T&#252;m Pistler</option>
+<option value="1">&#199;im</option>
+<option value="2">Kum</option>
+<option value="4">Sentetik</option>
+</select><input Class="txt autopostback" id="QueryParameter_BabaAdi" name="QueryParameter_BabaAdi" placeholder="Baba İsmi Giriniz" type="text" value="" /><input Class="txt autopostback" id="QueryParameter_AnneAdi" name="QueryParameter_AnneAdi" placeholder="Anne İsmi Giriniz" type="text" value="" /><input date="01.01.0001" id="Era" name="Era" type="hidden" value="past" /><input id="Sort" name="Sort" type="hidden" value="" /></form>
+
+
+
+
+<link rel="stylesheet" href="https://medya-cdn.tjk.org/medyaftp/Content/css/select2.css" />
+
+<script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/select2.min.js"></script>
+    <script type="text/javascript" src="https://medya-cdn.tjk.org/medyaftp/Scripts/Select2-locales/select2_locale_tr.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("div.race-info > ul.gunluk-tabs > li > a").live('click', function () {
+            if ($("#QueryParameter_KOSMAZFLG").length > 0) {
+                $("form.query > input#helName").remove();
+                $("form.query").prepend('<input type="hidden" value="' + $(this).attr("href") + '" id="helName">');
+                $("#ShowSilk").removeAttr("checked");
+            }
+
+                //if (parseInt($("div.race-info > ul.gunluk-tabs > li > a").attr("data-sehir-id")) > 10 && parseInt($("div.race-info > ul.gunluk-tabs > li > a").attr("data-sehir-id")) < 1000) {
+                //    $("#ShowSilk").hide();
+                //    $("#ShowSilk").next("span").hide();
+                //} else {
+                //    $("#ShowSilk").show();
+                //    $("#ShowSilk").next("span").show();
+                //}
+        });
+        $("#ShowSilk").change(function () {
+            //if ($(this).is(":checked")) {
+            //    $("th.formaHeader").show();
+            //    $("td.gunluk-GunlukYarisProgrami-FormaKodu").show();
+            //    $("td.gunluk-GunlukYarisSonuclari-FormaKodu").show();
+            //}
+            //else {
+            //    $("th.formaHeader").hide();
+            //    $("td.gunluk-GunlukYarisProgrami-FormaKodu").hide();
+            //    $("td.gunluk-GunlukYarisSonuclari-FormaKodu").hide();
+            //}
+            const SilkPage = $("td.gunluk-GunlukYarisProgrami-FormaKodu > a > img").length > 0 ? $("td.gunluk-GunlukYarisProgrami-FormaKodu > a > img") : ($("td.gunluk-GunlukYarisSonuclari-FormaKodu > a > img").length > 0 ? $("td.gunluk-GunlukYarisSonuclari-FormaKodu > a > img") : null);
+            if ($(this).is(":checked")) {
+                $("th.formaHeader").show();
+                if (SilkPage != null) {
+                    SilkPage.parent().parent().show();
+                    for (i = 0; i < SilkPage.length; i++) {
+                        var att = document.createAttribute("src");
+                        var ImgTag = SilkPage[i];
+                        att.value = SilkPage.parent()[i].getAttribute("href");
+                        if (ImgTag.getAttribute("src") !== att.value) {
+                            ImgTag.setAttributeNode(att);
+                        }
+                    }
+                }
+            }
+            else {
+                $("th.formaHeader").hide();
+                if (SilkPage != null) {
+                    SilkPage.parent().parent().hide();
+                }
+            }
+
+        });
+        $("input[type='checkbox']#QueryParameter_OLDUFLG").change(function () {
+            if (this.checked) {
+                $("#ajaxForm").prepend('<input type="hidden" name="OldQueryParameter_OLDUFLG" id="OldQueryParameter_OLDUFLG" value="on" />');
+                $("#pagerForm").prepend('<input type="hidden" name="OldQueryParameter_OLDUFLG" id="OldQueryParameter_OLDUFLG" value="on" />');
+                postAjaxForm();
+            } else {
+                $("#ajaxForm").find("input#OldQueryParameter_OLDUFLG").remove();
+                $("#pagerForm").find("input#OldQueryParameter_OLDUFLG").remove();
+                postAjaxForm();
+            }
+        });
+
+
+        $(".select2ajax").select2({
+            minimumInputLength: 1,
+            allowClear: true,
+            ajax: {
+                url: "/TR/YarisSever/Query/ParameterQuery",
+                data: function (term, page) {
+                    var parentParameterName = $(this).data("parentParameterName");
+                    return { parameterName: $(this).data("parameterName"), filter: term, page: page, parentParameterName: parentParameterName, parentParameterValue: $('#QueryParameter_' + parentParameterName).val() };
+                },
+                results: function (data, page) {
+                    return { results: data.entities, more: data.totalCount > page * 20 };
+                }
+            },
+            initSelection: function (element, callback) {
+                var id = $(element).val();
+                var parameterName = $(element).data("parameterName");
+                if (id) {
+                    $.ajax({
+                        url: "/TR/YarisSever/Query/ParameterValue",
+                        data: { parameterName: parameterName, id: id },
+                        type: "GET",
+                        async: true,
+                    }).done(function (result) {
+                        callback({ id: result.Id, text: result.Name });
+                    });
+                }
+            }
+        });
+        $(".select2ajax").on("change", function (event) {
+            postAjaxForm();
+        });
+
+    });
+
+    function onQueryUpdate() {
+        if ($(document).find("input#helName").length > 0) {
+            var href = $(document).find("input#helName").val();
+            $("ul.gunluk-tabs li a[href='" + href + "']").click();
+        }
+    }
+</script>
+
+<div class="clear">
+    &nbsp;
+</div>
+<div class="table-loading" id="table-loading">
+    Sorgu Tamamlanıyor
+</div>
+<div class="clear">
+    &nbsp;
+</div>
+
+
+
+
+
+<div id="content" style='margin-top:10px;margin-left:10px;'>
+
+    
+
+    
+
+</div>
+
+<script>
+
+
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        }
+        else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+
+    
+
+
+</script>
+
+
+
+
+
+
+
+
+<div class="program" id="dataDiv">
+    <table id="queryTable" summary="Koşular" class="tablesorter">
+        <thead>
+            <tr>
+
+
+                    <th scope="col">
+                        <a name="Tarih" href="#" class="" title="" onclick="">Tarih</a>
+                    </th>
+                    <th scope="col">
+                        <a name="Sehir" href="#" class="" title="" onclick="">Şehir</a>
+                    </th>
+                    <th scope="col">
+                        <a name="KosuSirasi" href="#" class="" title="" onclick="">Koşu</a>
+                    </th>
+                    <th scope="col">
+                        <a name="KosuGrubuAdi" href="#" class="" title="" onclick="">Grup</a>
+                    </th>
+                    <th scope="col">
+                        <a name="KosuCinsiAdi" href="#" class="" title="" onclick="">Koşu Cinsi</a>
+                    </th>
+                    <th scope="col">
+                        <a name="AprantiKosuTipi" href="#" class="" title="" onclick="">Apr. Koş. Cinsi</a>
+                    </th>
+                    <th scope="col">
+                        <a name="Mesafe" href="#" class="" title="" onclick="">Mesafe</a>
+                    </th>
+                    <th scope="col">
+                        <a name="PistAdi" href="#" class="" title="" onclick="">Pist</a>
+                    </th>
+                    <th scope="col">
+                        <a name="Kilo" href="#" class="" title="" onclick="">Sıklet</a>
+                    </th>
+                    <th scope="col">
+                        <a name="BabaAnne" href="#" class="" title="" onclick="">Orijin (Baba-Anne)</a>
+                    </th>
+                    <th scope="col">
+                        <a name="IKRAMIYE" href="#" class="" title="" onclick="">İkramiye</a>
+                    </th>
+                    <th scope="col">
+                        <a name="BirinciAtAdi" href="#" class="" title="" onclick="">Birinci</a>
+                    </th>
+                    <th scope="col">
+                        <a name="BirinciAtAdiYas" href="#" class="" title="" onclick="">Yaş</a>
+                    </th>
+                    <th scope="col">
+                        <a name="BirinciAtDerece" href="#" class="" title="" onclick="">Derece</a>
+                    </th>
+                    <th scope="col">
+                        <a name="HandikapPuani" href="#" class="" title="" onclick="">H. Puanı</a>
+                    </th>
+            </tr>
+        </thead>
+
+        <tbody id="tbody0" class="ajaxtbody">
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220773" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+1            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /Dişi /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1900            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+SUPER SAVER (USA) - SILVER PLANE (USA)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+350.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+SUPER PLANE            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.03.86            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+45            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220765" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+2            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+59            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+AMERİKALI - BIRD BOX            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+390.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ORGANIZATION            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.18.80            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+38            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220771" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+3            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 5            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2200            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+56,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+GRAYSTORM - LEDA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+450.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+DİDİ LAZİ            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.17.58            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+57            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220776" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+4            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+56,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+ARHANBEY - TİLİKUM            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+350.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+TİMBİRBİKE            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.25.95            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+51            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220770" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+5            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-7            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1800            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TOUCH THE WOLF - MELIORA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+WOLF OF PROTI            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y a  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.49.21            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+71            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220778" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+6            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 4            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+62            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+ENDEREFE - DEMİR ALTUN            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+350.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+DEMİRKARDEŞLER            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+5y k  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.28.56            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+90            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220779" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+7            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-7            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+FATİH AĞA - SENA HATUN            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ASLAN HATİP            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y k  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.36.02            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+68            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220766" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+8            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TOROK (IRE) - DORADISTA (GB)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+390.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+MASTER OF THE SEAS            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.18.86            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+35            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220768" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Bursa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+9            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 19            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1900            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+AVERY ISLAND (USA) - WARRIOR WOLF            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+390.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+LORD OF THE WOLF            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.03.24            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+35            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220775" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+1            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 5            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+FATİH AĞA - TUMBUL ZEMZEM            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+315.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+YETİM AMCA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y k  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.48.09            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+49            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220767" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+2            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 14 /H3            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+EUPRHATES (USA) - MISS ADANA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+200.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+KIZIMSIN DİLBER            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.38.04            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+43            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220774" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+3            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 16 /H3            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+62            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KLUGER (JPN) - MANANA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+315.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+BLUE QUEEN            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.37.49            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+64            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220763" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+4            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+59            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TRAPPE SHOT (USA) - BOUQUET            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+285.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ANTI HERO            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.41.59            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+25            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220769" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+5            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 4 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1800            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TOCCET (USA) - SIRÇA BEBEK            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+250.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+MY BRUNETTE ANGEL            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.12.55            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+37            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220777" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+6            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /H3            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KAIZBERT (RU) - UÇANKINALI            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+250.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+UÇAN KAFKASLI            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+6y a  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.48.70            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+44            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220764" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+7            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KLIMT (USA) - IRMAK PRENSES            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+285.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+KARDAHA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.38.45            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=27%2f10%2f2025&amp;1=#220772" >27.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Şanlıurfa            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+8            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 3            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1200            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KIRDEMİRKIR - ROYAL KAŞGAR            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+200.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ŞİMENDİFER            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y a  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.21.15            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+67            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220745" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+1            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TIZWAY (USA) - GREEN ALLEY            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+390.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+NAMASTE            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.19.64            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+15            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220760" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+2            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 4 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+PİRSUS - KOŞANSAÇAN            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+350.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+SOSAN YILDIZI            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y a  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.40.25            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+41            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220761" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+3            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 4 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2000            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+56            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+COOGER - MASSANDRA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+350.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+WOLKA MARIA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y d k            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.12.47            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+80            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220762" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+4            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 16 /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+SIDNEY'S CANDY (USA) - EMBASSY PEARL (IRE)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+450.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ALLY SUE            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.17.85            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+66            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220744" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+5            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+BLUEGRASS CAT (USA) - HAYATIM            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+390.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+LEADER TULIP            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.19.81            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220758" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+6            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 16 /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1200            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+55,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TURBO - TAÇMAHAL            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+450.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+OĞUZHANTAY            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y k  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.19.75            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+56            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220756" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+7            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-8            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+EPAULETTE (AUS) - MAKSIMONNA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+700.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+YAKARİ            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.17.43            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+48            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220757" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+8            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+59            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TURBO - HEKİM            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+350.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+SOCIAL DISTANCE            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y a k            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.39.08            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+52            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220759" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Adana            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+9            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 19            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1900            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TOROK (IRE) - NERIA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+390.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+NERITOR            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.05.69            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220754" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+1            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 17 /H1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TURBO - KINAYCAN            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+570.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+AKLIMCAN            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y k  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.33.26            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+77            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220747" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+2            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 1 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+BODEMEISTER (USA) - FRESH YOURSELF            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+BOLD STEPS            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.27.15            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220751" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+3            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 16 /H1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2200            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+55,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KALİMDOR - BURANO KIZI            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+520.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ACAR TAY            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+5y d  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.17.79            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+59            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220748" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+4            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 1 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+CRIMEAN TATAR - PEPER POTTS            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+NEURO MATH            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.26.27            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220753" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+5            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /Dişi /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1500            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+ÖZHABER - YALNIZ ÇAM            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+425.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+FISTIK ÇAMI            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y a  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.41.03            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+59            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220746" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+6            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 1 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+NATIVE KHAN (FR) - WHITE LILY            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+WEEPING SONG            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.25.98            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220752" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+7            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Kısa Vade Handikap 24 /H1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2100            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+52,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+WIENER WALZER (GER) - NAME OF DANGER            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+810.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+CAPE COD            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y a  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.11.17            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+86            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220749" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+8            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+G 1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1600            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+EPAULETTE (AUS) - ELİF HATUN            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+5.250.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+UPAMECANO            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.40.25            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+96            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220750" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+9            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-8            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1500            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+TOROK (IRE) - GONDOR            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+810.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+PYTHAGOREAN THEORY            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.29.83            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+92            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=26%2f10%2f2025&amp;1=#220755" >26.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+İstanbul            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+10            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /H1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2200            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Sentetik            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+56            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+GÜRSU - BALK            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+425.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+SANCAKALAN            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y a  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.32.33            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+53            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220727" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+1            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 14 /H2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+54,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+SİLAH - DÜŞÜMDEKİ            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+335.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+KERPETEN YALÇIN            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y k  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.28.53            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+42            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220718" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+2            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KANEKO - REACTIVE (GER)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+430.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+RICHWOOD            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.27.42            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220731" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+3            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 4            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1900            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+54            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+MYBOYCHARLIE (IRE) - KILFARASY (IRE)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+425.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+OHRID INCISI            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y d k            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.00.29            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+81            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220725" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+4            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-6            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2100            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+SONALP - ERVAGÜL            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+KAŞEMUM KARA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+6y d  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.29.26            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+96            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220717" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+5            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Maiden /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+CALL TO VICTORY - SOUL OF NATAKA (CAN)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+430.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ENHEDUANNA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y a  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.27.15            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220728" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+6            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+G 1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1500            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+VICTORY GALLOP (CAN) - UNDERCOVER SOLDIER (USA)            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+3.500.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+WARDENCLYFFE            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+6y a  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.31.71            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+107            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220726" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+7            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-6            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1400            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+HAKEEM (USA) - BALLET DANCER            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+HEARTED            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.25.86            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+81            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220724" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+8            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+G 2            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1500            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+BODEMEISTER (USA) - ART POWER            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+2.600.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+SILENT TREATMENT            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y d  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.32.83            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+57            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220730" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Ankara            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+9            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /Dişi /H1            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1300            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Çim            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+51,5            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+LUXOR - QUEEN SEA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+425.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+PATAKHA GUDDI            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+3y d  d            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.19.78            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+42            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220734" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Diyarbakır            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+1            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+2 Yaşlı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 19            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1200            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+57            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+ÜNLÜOĞLU - LION MASTER            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+285.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ÜNLÜSİMA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+2y a  e            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.23.13            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+25            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220741" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Diyarbakır            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+2            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+G 3            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1900            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+58            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+KURUŞAĞA - ASSOS            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+800.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+ÇİLOBEY            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y a  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.26.09            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+71            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220738" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Diyarbakır            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+3            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+3 ve Yukarı İngilizler            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+KV-6            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1700            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+62            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+AIR VICE MARSHAL (USA) - ALWAYS THE FIRST            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+360.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+QUIET MAN            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y d  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+1.56.79            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+57            </td>        </tr>
+        <tr class="even" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220740" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Diyarbakır            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+4            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 Yaşlı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+Handikap 15 /H3            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+Yamak-2            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+1700            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+53            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+ENDEREFE - PRENSES SARA            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+250.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+BEZANTAY            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+4y k  a            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.09.48            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+36            </td>        </tr>
+        <tr class="odd" >
+            <td class="sorgu-KosuSorgulama-Tarih" style="">
+                                <a target="_blank" href="../Page/../../Info/Page/GunlukYarisSonuclari?QueryParameter_Tarih=25%2f10%2f2025&amp;1=#220742" >25.10.2025</a>
+            </td>            <td class="sorgu-KosuSorgulama-Sehir" style="">
+Diyarbakır            </td>            <td class="sorgu-KosuSorgulama-KosuSirasi" style="">
+5            </td>            <td class="sorgu-KosuSorgulama-KosuGrubuAdi" style="">
+4 ve Yukarı Araplar            </td>            <td class="sorgu-KosuSorgulama-KosuCinsiAdi" style="">
+ŞARTLI 4 /Dişi            </td>            <td class="sorgu-KosuSorgulama-AprantiKosuTipi" style="">
+            </td>            <td class="sorgu-KosuSorgulama-Mesafe" style="">
+2000            </td>            <td class="sorgu-KosuSorgulama-PistAdi" style="">
+Kum            </td>            <td class="sorgu-KosuSorgulama-Kilo" style="">
+60            </td>            <td class="sorgu-KosuSorgulama-BabaAnne" style="">
+BİTİRİMKARINCA - SEDACIK            </td>            <td class="sorgu-KosuSorgulama-IKRAMIYE" style="">
+250.000            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdi" style="">
+BİTİRİM SEDA            </td>            <td class="sorgu-KosuSorgulama-BirinciAtAdiYas" style="">
+6y a k            </td>            <td class="sorgu-KosuSorgulama-BirinciAtDerece" style="">
+2.37.95            </td>            <td class="sorgu-KosuSorgulama-HandikapPuani" style="">
+60            </td>        </tr>
+    <tr class="hidable">
+        <td colspan="15">
+            <div>
+<form Class="pagerForm" action="/TR/YarisSever/Query/DataRows/KosuSorgulama" data-ajax="true" data-ajax-complete="hideDiv" data-ajax-loading="#loading1" data-ajax-method="GET" data-ajax-mode="after" data-ajax-success="submitSuccesss" data-ajax-update="#queryTable" id="pagerForm" method="post"><input data-val="true" data-val-number="The field Int32 must be a number." data-val-required="The Int32 field is required." id="pageNumber01" name="PageNumber" type="hidden" value="1" /><input id="sort01" name="Sort" type="hidden" value="Tarih desc, Sehir asc, KosuSirasi asc" />                        <button type="submit" class="show-more">
+                            Daha Fazla Sonuç Göster
+                        </button>
+</form>                    <div>
+                        Toplam 139701 sonuçtan 50 tanesi gösteriliyor
+                    </div>
+                    <a href="#">Başa Dön</a>
+            </div>
+            <div class="clear">
+                &nbsp;
+            </div>
+            <div>
+                <div class="table-loading" style="margin-top:0; height: 50px;" id="loading1">
+                    Yükleniyor...
+                </div>
+            </div>
+            <div class="clear">
+                &nbsp;
+            </div>
+        </td>
+    </tr>
+</tbody>
+
+    </table>
+
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#queryTable thead tr th a").live("click", function () {
+            var sort = $("#Sort").val();
+            var sortItemName = $(this).attr("name");
+            var sortPartition = sort.length > 0 ? sort.split(",") : [];
+            var itemIndex = sortPartition.indexOf(sortItemName + " DESC");
+            if (itemIndex !== -1) {
+                sortPartition.splice(itemIndex, 1);
+                $(this).removeClass("down");
+            } else {
+                itemIndex = sortPartition.indexOf(sortItemName);
+                if (itemIndex === -1) {
+                    sortPartition.push(sortItemName);
+                    $(this).addClass("up");
+                } else {
+                    sortPartition.splice(itemIndex, 1, sortItemName + " DESC");
+                    $(this).removeClass("up").addClass("down");
+                }
+            }
+
+            $("#Sort").val(sortPartition.join());
+            postAjaxForm();
+        });
+
+    });
+</script>
+
+                        </div>
+
+                            <div>
+                                <div id="loginesBox">
+                                     <a target="_blank" href="https://ebayi.tjk.org/bahis-yap-advanced">
+                                          <img style="display:none;" src="https://medya-cdn.tjk.org/medyaftp/img/Yuzde75YanBanner.jpg"/> 
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+
+                    <div class="clear">
+                        &nbsp;
+                    </div>
+                </div>
+
+        </div>
+
+        <div class="clear">
+            &nbsp;
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+<div class="footer-container" style="height:230px" >
+    <div class="container_24">
+        <div id="footer">
+            <div class="prefix_7 grid_4 footer-list">
+                <h2 style="text-align:center">
+                    KURUMSAL
+                </h2>
+                <ul>
+                    <li><a href="/TR/Kurumsal/Static/Page/KanunTuzukYonetmelik">Kanunlar ve Yönetmelikler</a></li>
+                    <li><a href="/TR/Kurumsal/Query/Page/Ilanlar">İlanlar</a></li>
+                    <li><a href="/TR/Kurumsal/Static/Page/BayilikIslemleri">Bayilik İşlemleri</a></li>
+                    <li><a href="/Kvkk">Kişisel Verilerin Korunması</a></li>
+                    <li><a href="/TR/Kurumsal/Static/Page/NasilGanyanBayiOlunur">Nasıl Ganyan Bayi Olunur?</a></li>
+                    <li><a href="/TR/Kurumsal/Static/Page/Baglantilar">Bağlantılar</a></li>
+                    <li><a href="https://onlinev2.tjk.org" target="_blank">Online İşlemler(Cari Hesap Takibi)</a></li>
+                    
+                    <li><a href="/TR/YarisSever/Form/BeyazMasa">Beyaz Masa</a></li>
+                </ul>
+            </div>
+            <div class="grid_4 footer-list">
+                <h2 style="text-align:center">
+                    YARIŞSEVER
+                </h2>
+                <ul>
+                    <li><a href="/TR/YarisSever/Query/Page/OnemliKosular">Önemli Koşular</a></li>
+                    <li><a href="/TR/YarisSever/Query/Page/UluslararasiKosu">Uluslararası Koşular</a></li>
+                    <li><a href="/TR/Yarissever/Static/Page/FotoFinis">Foto-Finiş Nasıl Çalışır?</a></li>
+                    <li><a href="/TR/Yarissever/Static/Page/Baglantilar">Bağlantılar</a></li>
+                    <li><a href="https://e-bayi.tjk.org/" target="_blank">Bahis Yap</a></li>
+                    <li><a href="/TR/Yarissever/Static/Page/Bahisler">Bahisler</a></li>
+                    <li><a href="/TR/Yarissever/Static/Page/Odeme">Kazançlı biletler nasıl ödenir?</a></li>
+                    <li><a href="/TR/YarisSever/Static/Page/NasilOynanir">Nasıl Oynanır ?</a></li>
+                    <li><a href="/TR/YarisSever/Form/BeyazMasa">Beyaz Masa</a></li>
+                    <li>  <a href="#" class="nesil-open-modal ">Çerez Tercihleri</a></li>
+					
+                </ul>
+            </div>
+            <div class="grid_5 footer-list">
+                <h2 style="text-align:center">
+                    YARIŞ ve YETİŞTİRİCİLİK
+                </h2>
+                <ul>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/GenelHukumler">Genel Hükümler</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/OBirSampiyondu">O Bir Şampiyondu</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/AprantiEgitimMerkezi">TJK Ekrem Kurt Apranti Eğitim Merkezi</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/Talimatnameler">Talimatnameler</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/AhirTahsis">Ahır Tahsis Müracaat Formu</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/Aygirlar">Aygırlar</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/SahipNasilOlunur">At Sahibi Belgesi Nasıl Alınır ?</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/Baglantilar">Bağlantılar</a></li>
+                    <li><a href="https://onlinev2.tjk.org" target="_blank">Online İşlemler(Cari Hesap Takibi)</a></li>
+                    <li><a href="/TR/Yetistiricilik/Static/Page/TripleCrown" target="_blank">Triple Crown Nedir ?</a></li>
+                    <li><a href="/TR/YarisSever/Form/BeyazMasa">Beyaz Masa</a></li>
+                </ul>
+            </div>
+            <div class="grid_4 footer-list">
+                <h2 style="text-align:center">
+                    SOSYAL MEDYA
+                </h2>
+                <div style="text-align:center;padding:5px 5px 5px 5px">
+                    <a href="https://www.facebook.com/T%C3%BCrkiye-Jokey-Kul%C3%BCb%C3%BC-420846981602324/" target="_blank"><img src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/facebook_1.png" width="30" height="30"></a> 
+                    <a href="http://twitter.com/_tjk_" target="_blank"> <img src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/twitter_1.png" width="30" height="30"></a>
+                 </div>
+                <div style="text-align:center;padding:5px 5px 5px 5px">
+                    <a href="https://www.youtube.com/channel/UCNLO4lpteIloZ4IKb9L2DoA" target="_blank"><img src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/youtube_1.png" width="30" height="30"></a>
+                    <a href="https://www.instagram.com/turkiyejokeykulubu" target="_blank"><img src="https://medya-cdn.tjk.org/medyaftp/img/socialmedia/instagram_1.png" width="30" height="30"></a>
+                </div>
+               
+
+                <a href="https://itunes.apple.com/tr/app/tjk-mobil/id735255624?l=tr&mt=8" target="_blank"><img src="https://medya-cdn.tjk.org/medyaftp/img/app2.png" width="178" height="50"></a> 
+                <a href="https://www.tjk.org/m/uygulama.html" target="_blank"><img src="https://medya-cdn.tjk.org/medyaftp/img/google.png"  style="margin-left:12px;"></a> 
+              
+
+            </div>
+            <div class="clear">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <img src="https://medya-cdn.tjk.org/medyaftp/site_img/sgs27001.png" alt="SGS 27001:2005" rel="#sgs" class="overlink sgs" />
+    <div id="sgs" class="overlay">
+        <img style="float:left" alt="ISO/IEC 27001:2005" src="https://medya-cdn.tjk.org/medyaftp/site_img/politikav9.jpg">
+    </div>
+</div>        <div class="footerText">
+            <a href="https://gazi.tjk.org/" target="_blank" class="footerTextItem">GAZİ</a> |
+            <a href="https://athastaneleri.tjk.org/" target="_blank" class="footerTextItem">TJK AT HASTANELERİ</a> |
+            <a href="https://atlaterapi.tjk.org/" target="_blank" class="footerTextItem">TJK ATLA TERAPİ</a> |
+            <a href="https://yayinlar.tjk.org/" target="_blank" class="footerTextItem">TJK YAYINLARI</a> |
+            <a href="https://ponyclub.tjk.org/index.html" target="_blank" class="footerTextItem">PONY CLUB</a>
+        </div>
+    </div>
+
+</body>
+</html>

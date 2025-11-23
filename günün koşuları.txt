@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=1280" name="viewport" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>TJK e-Bayi</title>
+    <link href="https://emedya-cdn.tjk.org/dist//favicon.ico" rel="shortcut icon" type="image/ico"/>
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/tempusdominus-bootstrap-4.min.css"/>
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/oswald-font.css"/>
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/roboto-font.css"/>
+    <link href="https://emedya-cdn.tjk.org/dist/css/app.min.css?v=v251020" rel="stylesheet" />
+
+    <link href="https://emedya-cdn.tjk.org/dist/css/lobipanel.min.css?v=48" rel="stylesheet"/>
+    <link href="https://emedya-cdn.tjk.org/dist/css/bootstrapValidator.min.css?v=48" rel="stylesheet"/>
+    <link href="https://emedya-cdn.tjk.org/dist/css/swiper-bundle.min.css?v=1" rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/all.min.css" />-->
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/icomoon.css?v=v251020">
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/icomoon_datetimepicker.css?v=50">
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/video-js.min.css?v=48">
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/lightbox.min.css">
+
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/extra.css?v=v251020">
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/jspanel.min.css">
+    <link rel="stylesheet" href="https://emedya-cdn.tjk.org/dist/css/jquery.resizableColumns.css">
+
+  </head>
+  <body class="home-page">
+    <script type="text/javascript">
+			if (window.location.hostname === 'e-bayi.tjk.org'){
+				window.location.href = "https://ebayi.tjk.org"+window.location.pathname
+			}
+		</script>
+    <div class="loader">
+      <span></span>
+    </div>
+    <div class="carousel-background-drop"></div>
+    <div
+      id="carouselBackground"
+      class="carousel slide carousel-fade carousel-background min-w-100"
+      data-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="https://emedya-cdn.tjk.org/dist/images/bg-main_1.jpg"
+            class="d-block w-100"
+            alt=""
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://emedya-cdn.tjk.org/dist/images/bg-main_2.jpg"
+            class="d-block w-100"
+            alt=""
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://emedya-cdn.tjk.org/dist/images/bg-main_3.jpg"
+            class="d-block w-100"
+            alt=""
+          />
+        </div>
+          <div class="carousel-item">
+              <img
+                src="https://emedya-cdn.tjk.org/dist/images/bg-main_5.jpg"
+                class="d-block w-100"
+                alt=""
+              />
+            </div>
+      </div>
+    </div>
+    <header>
+      <div class="container position-relative">
+        <div class="top-button-container">
+          <a
+            href="//ebayi.tjk.org/sifremi_unuttum"
+            class="btn btn-small p-1 table-button waves-effect waves-light w-100"
+            >ŞİFREMİ UNUTTUM</a
+          >
+          <a
+            href="//ebayi.tjk.org/uye-ol"
+            class="btn btn-small p-1 table-button waves-effect waves-light w-100"
+            >ÜYE OL, KAZAN!</a
+          >
+        </div>
+        <div class="top-nav">
+          <ul class="nav w-100">
+            <li class="nav-item first-li">
+              <a class="nav-link" href="//ebayi.tjk.org/">ANASAYFA</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link external-link" target="_blank" href="https://www.tjk.org/TR/YarisSever/Form/BeyazMasa">BEYAZ MASA</a>
+            </li>
+            <!--
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">KAMPANYALAR</a>
+              <ul class="dropdown-menu dropdown-menu-right">
+      
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item dropdown-toggle" href="#">Hediye Yağmuru</a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="//ebayi.tjk.org/kampanyalar/hediye-yagmuru/2019/ekim">2019 Ekim</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="//ebayi.tjk.org/kampanyalar/hediye-yagmuru/2019/kasim">2019 Kasım</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="//ebayi.tjk.org/kampanyalar/hediye-yagmuru/2019/aralik">2019 Aralık</a>
+                    </li>
+                  </ul>
+                </li>
+      
+              </ul>
+            </li>
+            -->
+      
+            <li class="nav-item">
+              <a class="nav-link" href="//ebayi.tjk.org/yardim">YARDIM</a>
+            </li>
+          </ul>
+          <form class="w-100 login-form" onsubmit="return false;" style="position: relative;">
+            <div class="form-row align-items-center mx-n1 justify-content-end pr-1" style="z-index: 10;position: absolute;right: 0;top: 0;">
+              <div class="col-auto px-1">
+                <label class="sr-only"
+                  >e-posta/üye no/tc kimlik</label
+                >
+                <input
+                  type="text"
+                  name="login-user"
+                  autocomplete="off"
+                  class="form-control mb-2"
+                  placeholder="e-posta/üye no/tc kimlik"
+                />
+              </div>
+              <div class="col-auto px-1">
+                <label class="sr-only">şifre</label>
+                <input
+                  type="password"
+                  name="login-password"
+                  autocomplete="off"
+                  class="form-control mb-2"
+                  placeholder="şifre"
+                />
+              </div>
+              <div class="col-auto px-1">
+                <button type="submit" class="btn btn-sm text-white mb-2 login-button">
+                  GİRİŞ
+                </button>
+              </div>
+            </div>
+            <div class="login-ex" style="display:none;background: #020201;width: 385px;height: 71px;position: absolute;top: 0px;z-index: 4;right: 0;border-radius: 8px 8px 0 0;padding-top: 37px;padding-left: 29px;color: #fff;font-weight: normal;font-family: inherit;font-size: 14px;">
+                <div class="form-group custom-control custom-checkbox has-feedback mb-0" style="display: inline-block;margin-right: 66px;">
+                    <input type="checkbox" class="custom-control-input" name="remember_me" id="remember_me" data-bv-field="remember_me">
+                    <label class="custom-control-label pt-1" for="remember_me">Beni hatırla</label>      
+                </div>
+                <div class="form-group custom-control custom-checkbox has-feedback mb-0" style="display: inline-block;">
+                    <input type="checkbox" class="custom-control-input" name="keep_login" id="keep_login" data-bv-field="keep_login">
+                    <label class="custom-control-label pt-1" for="keep_login">Oturumu açık tut</label>      
+                </div>
+            </div>
+          </form>
+        </div>
+        <a href="//ebayi.tjk.org/" class="position-relative d-block">
+          <div class="logo"></div>
+        </a>
+        <div class="main-nav">
+          <ul class="nav w-100 main-nav-left">
+            <li class="nav-item first-li">
+              <a class="nav-link" href="//ebayi.tjk.org/bahis-yap-advanced">BAHİS YAP</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="//ebayi.tjk.org/program">PROGRAM</a></li>
+            <li class="nav-item"><a class="nav-link" href="//ebayi.tjk.org/sonuclar">SONUÇLAR</a></li>
+          </ul>
+          <ul class="nav w-100 main-nav-right">
+            <li class="nav-item first-li">
+              <a class="nav-link" href="//ebayi.tjk.org/tjk-web-tv">TJK WEB TV</a>
+            </li>
+            <li class="nav-item"><a class="nav-link external-link" href="https://vhs.tjk.org/muhtemeller/" target="_blank">MUHTEMELLER</a></li>
+            <li class="nav-item"><a class="nav-link external-link" href="https://www.tjk.org/" target="_blank">tjk.org</a></li>
+          </ul>
+        </div>
+        <nav class="d-none">
+          <ul class="sf-menu sf-js-enabled">
+            <li class="first-li">
+              <a href="//ebayi.tjk.org/bahis-yap-advanced">BAHİS YAP</a>
+            </li>
+            <li><a href="//ebayi.tjk.org/program">PROGRAM</a></li>
+            <li><a href="//ebayi.tjk.org/sonuclar">SONUÇLAR</a></li>
+            <li id="li-indent"><a href="//ebayi.tjk.org/tjk-web-tv">TJK WEB TV</a></li>
+            <li><a href="https://vhs.tjk.org/muhtemeller/" class="external-link" target="_blank">MUHTEMELLER</a></li>
+            <li><a href="https://www.tjk.org/" class="external-link" target="_blank">tjk.org</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="clear"></div>
+
+    <main>
+    </main>
+    <footer class="page-footer font-small pt-4 text-white">
+      <!-- Footer Links -->
+      <div
+        class="container text-center text-md-left font-xsm"
+      >
+        <!-- Grid row -->
+        <div class="row">
+          <!-- Grid column -->
+          <div class="col-md-2 mx-auto pt-5">
+            <img src="https://emedya-cdn.tjk.org/dist/images/tjkLogoFotter.png" class="w-100 d-block m-0-auto"/>
+          </div>
+          <!-- Grid column -->
+      
+          <hr class="clearfix w-100 d-md-none" />
+      
+          <!-- Grid column -->
+          <div class="col mx-auto">
+            <!-- Links -->
+            <h5 class="font-weight-bold text-uppercase mt-3 mb-3">BAHİS</h5>
+      
+            <ul class="list-unstyled">
+              <li>
+                <a href="//ebayi.tjk.org/bahis-yap-advanced"><i class="icon-angle-right text-primary"></i> Bahis Yap</a>
+              </li>
+              <li>
+                <a href="//ebayi.tjk.org/program"><i class="icon-angle-right text-primary"></i> Program</a>
+              </li>
+              <li>
+                <a href="//ebayi.tjk.org/sonuclar"><i class="icon-angle-right text-primary"></i> Sonuçlar</a>
+              </li>
+              <li>
+                <a href="https://vhs.tjk.org/muhtemeller/" class="external-link" target="_blank"><i class="icon-angle-right text-primary"></i> Muhtemeller</a>
+              </li>
+              <li>
+                <a href="//ebayi.tjk.org/tjk-web-tv"><i class="icon-angle-right text-primary"></i> TJK Web TV</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Grid column -->
+      
+          <hr class="clearfix w-100 d-md-none" />
+      
+          <!-- Grid column -->
+          <div class="col mx-auto on-login-hide">
+            <!-- Links -->
+            <h5 class="font-weight-bold text-uppercase mt-3 mb-3">
+              ÜYELİK
+            </h5>
+      
+            <ul class="list-unstyled">
+              <li>
+                <a href="//ebayi.tjk.org/uye-ol"><i class="icon-angle-right text-primary"></i> Üye Ol, Kazan!</a>
+              </li>
+              <li>
+                <a href="//ebayi.tjk.org/sifremi_unuttum"><i class="icon-angle-right text-primary"></i> Şifremi Unuttum</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Grid column -->
+      
+          <hr class="clearfix w-100 d-md-none" />
+      
+          <!-- Grid column -->
+          <div class="col mx-auto">
+            <!-- Links -->
+            <h5
+                    class="font-weight-bold text-uppercase mt-3 mb-3 text-nowrap">
+              YARDIM
+            </h5>
+      
+            <ul class="list-unstyled">
+              <li>
+                  <a href="//ebayi.tjk.org/yardim/24"><i class="icon-angle-right text-primary"></i> Para Çekme</a>
+              </li>
+              <li>
+                <a href="//ebayi.tjk.org/yardim/17"><i class="icon-angle-right text-primary"></i> Para Yatırma</a>
+              </li>
+              <li>
+                <a href="https://www.tjk.org/TR/YarisSever/Form/BeyazMasa" class="external-link" target="_blank"><i class="icon-angle-right text-primary"></i> Beyaz Masa</a>
+              </li>
+              <li>
+                <a href="//ebayi.tjk.org/yardim"><i class="icon-angle-right text-primary"></i> Yardım</a>
+              </li>
+            </ul>
+          </div>
+      
+          <hr class="clearfix w-100 d-md-none" />
+      
+          <div class="col mx-auto">
+            <!-- Links -->
+            <h5 class="font-weight-bold text-uppercase mt-3 mb-3 text-nowrap" style="width: 160px;">
+              BAĞLANTILAR
+            </h5>
+      
+            <ul class="list-unstyled">
+              <li>
+                <a href="https://www.tjk.org/" target="_blank" class="external-link"><i class="icon-angle-right text-primary"></i> tjk.org</a>
+              </li>
+              <li>
+                <a href="javascript:void(0);" data-href="https://mobil.tjk.org/" class="external-link link-mobil-redirect"><i class="icon-angle-right text-primary"></i> Mobil Site</a>
+              </li>
+              <li>
+                <a href="https://www.tjk.org/TR/Yarissever/Static/Page/KisiselVerilerinKorunmasi" target="_blank" class="external-link"><i class="icon-angle-right text-primary"></i> Kişisel Verilerin Korunması</a>
+              </li>
+            </ul>
+          </div>
+      
+      
+          <hr class="clearfix w-100 d-md-none" />
+      
+          <div class="col mx-auto">
+            <ul class="list-unstyled mt-5">
+              <li><a href="https://itunes.apple.com/tr/app/tjk-mobil/id735255624?l=tr&amp;mt=8" target="_blank" class="external-link"><img src="https://emedya-cdn.tjk.org/dist/images/appstore.png" style="margin-left:12px;"></a></li>
+              <li><a href="https://www.tjk.org/m/uygulama.html" target="_blank" class="external-link"><img src="https://emedya-cdn.tjk.org/dist/images/googleplay.png" style="margin-left:12px;"></a></li>
+            </ul>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+      <!-- Footer Links -->
+      
+      <!-- Social buttons -->
+      <div class="container position-relative">
+        <ul class="list-unstyled list-inline text-center mt-4 font-xxlg">
+          <li class="list-inline-item">
+            <a class="btn-floating external-link mx-1 text-color-facebook" href="https://www.facebook.com/turkiyejokeykulubu/" target="_blank">
+              <i class="icon-facebook"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating external-link mx-1 text-color-twitter" href="https://twitter.com/_tjk_" target="_blank">
+              <i class="icon-twitter"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating external-link mx-1 text-color-youtube" href="https://www.youtube.com/channel/UCNLO4lpteIloZ4IKb9L2DoA" target="_blank">
+              <i class="icon-youtube"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="btn-floating external-link mx-1 text-color-instagram" href="https://www.instagram.com/turkiyejokeykulubu/" target="_blank">
+              <i class="icon-instagram"></i>
+            </a>
+          </li>
+        </ul>
+        <!-- Social buttons -->
+      
+        <!-- Copyright -->
+        <div
+                class="footer-copyright text-center py-2 font-sm">
+          Türkiye Jokey Kulübü Derneği <br />At Yetiştiriciliği ve Yarışları İktisadi İşletmesi<br />© Tüm hakları saklıdır.
+        </div>
+        <!-- Copyright -->
+      
+        <div class=" text-center py-3 font-sm">
+          <i class="icon-18 font-2x align-middle" style="border: 3px solid red; border-radius: 50%;"></i>
+          TJK İnternet Bahis Sistemi e-Bayi’ye, 18 yaşından büyükler üye olabilir.
+        </div>
+      
+        <div class="footer-qr">
+          <div id="ETBIS"><div id="0bbcb0e807fb4b5188e522b441150d41"><a class="nav-link external-link" href="https://etbis.eticaret.gov.tr/sitedogrulama/0bbcb0e807fb4b5188e522b441150d41" target="_blank"><img src="https://emedya-cdn.tjk.org/dist/images/etbis.png"/></a></div></div>
+      
+        </div>
+      
+        <a href="//ebayi.tjk.org/sgs/polite" class="modal-link sgs-iso27001" data-urlDataType="modal" data-onEscape="true" data-backdrop="true" data-size="lg">
+          <img src="https://emedya-cdn.tjk.org/dist/images/iso27001.png" alt="SGS ISO 27001">
+        </a>
+      </div>
+    </footer>
+
+    <div aria-live="polite" aria-atomic="true" class="toast-area">
+      <div class="toast-container"></div>
+    </div>
+    <div
+      class="modal fade"
+      id="modalCenter"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalCenterTitle"
+      aria-hidden="true"
+    ></div>
+    <div id="coupon-panel"></div>
+
+    <script src="https://emedya-cdn.tjk.org/dist/js/apexchart.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/swiper-bundle.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/polyfill.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/jquery-3.4.1.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/jquery-ui.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/lightbox.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/moment.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/popper.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/bootstrap.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/datetimepicker_tr_locale.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/mustache.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/lobipanel.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/windowstate.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/app.js?v=v251020"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/app_init.js?v=v251020"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/eeb.js?v=v251020"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/sticky.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/smooth-scroll.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/jquery.mask.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/bootstrapValidator.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/tr_TR.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/snabbdom-patch.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/tovnode.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/vnode.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/bootbox1.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/Chart.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/rmp-v5.6.1.min.js"></script>
+
+    <script src="https://emedya-cdn.tjk.org/dist/js/jspanel.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/jquery.resizableColumns.min.js"></script>
+    <script src="https://emedya-cdn.tjk.org/dist/js/store.everything.min.js"></script>
+
+    <script>
+      store = store.createStore(store._storage, [store._seenPlugins[2]]);
+      store.namespace('tjk')
+
+    </script>
+
+    <script>
+      var locale = {
+          OK      : 'Tamam',
+          CANCEL  : 'İptal',
+          CONFIRM : 'Onayla'
+      };
+
+      bootbox.addLocale('en', locale);
+    </script>
+
+    <script>
+      app.global={"appURL":"\/\/ebayi.tjk.org","staticURL":"https:\/\/ebayi.tjk.org\/s\/d\/","staticPath":"https:\/\/emedya.tjk.org","staticCdnPath":"https:\/\/emedya-cdn.tjk.org","mediaPath":"https:\/\/ebayi.tjk.org","mediaCdnPath":"https:\/\/emedya-cdn.tjk.org","resourceURL":"https:\/\/emedya-cdn.tjk.org","recaptcha":"6LdJiocUAAAAAHRLzD7fjeOHvxAvQ8gmQru6aDxN","language":"tr","mobileRedirect":{"url":"https:\/\/mobil.tjk.org\/","referrer":"https:\/\/mobil.tjk.org\/"}};
+      app.utils.updateVisitor({"session":false,"ip":"176.88.201.154","checksum":"1ed7eb3a"});
+      setInterval(app.utils.checkVisitorChange, 10000);
+      setInterval(app.utils.checkSessionTimeout, 10000);
+      app.views.general={"html":{"content":""},"language":{"is_tr":true},"js":{},"views":{"BetCoupon":{"html":{"content":""},"language":{"is_tr":true},"js":{},"views":{}}}};
+    </script>
+    <script>
+      $.fn.serializeObject = function() {
+        var o = {}
+        var a = this.serializeArray()
+        $.each(a, function() {
+          if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+              o[this.name] = [o[this.name]]
+            }
+            o[this.name].push(this.value || "")
+          } else {
+            o[this.name] = this.value || ""
+          }
+        })
+        return o
+      }
+    </script>
+    <script>
+        app.utils.loadPage("//ebayi.tjk.org/", false, 'GET');
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-68590762-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-68590762-1', {cookie_domain:'ebayi.tjk.org', cookie_prefix: 'eBayi'});
+    </script>
+
+
+
+<script type="module">
+
+  const {h, render }  = await  import(app.global.resourceURL+ '/dist/js/BetAdvanced/standalone.module.js?v=v251020');
+  const htm  = await import(app.global.resourceURL+ '/dist/js/BetAdvanced/htm.module.js?v=v251020');
+  const html = htm.default.bind(h);
+  window.render = render
+  window.html = html
+
+
+  const {Coupon}   = await import(app.global.resourceURL+ '/dist/js/BetAdvanced/coupon.module.js?v=v251020');
+  const couponEl = $('#coupon-panel');
+  if(/Android|Opera Mini|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile/i.test(navigator.userAgent)){
+          $('body').addClass('mobilescreen')
+    }else{
+      window.couponPanel = jsPanel.create({
+        onwindowresize: (event,panel)=>{
+          const panelPos = $(panel).position()
+          const panelWidth = $(panel).width()
+
+          if(panelPos.left+panelWidth +5>window.innerWidth){
+              panel.reposition({
+                my: 'left-top',
+                at: 'left-top',
+                offsetX: window.innerWidth-panelWidth -5,
+                offsetY: panelPos.top
+            });
+            return
+          }
+          if(panelPos.left<0){
+              panel.reposition({
+                my: 'left-top',
+                at: 'left-top',
+                offsetX: 0,
+                offsetY: panelPos.top
+            });
+            return
+          }
+
+        },
+
+        position: {
+            my: 'center-top',
+            at: 'center-top',
+            offsetX: 600,
+            offsetY: 178
+        },
+        dragit:{
+          containment: [0,0]
+        },
+        panelSize: '250 400',
+        border: 'thin dimgray',
+        id: 'tjk-coupon-panel',
+        headerControls: {
+            close:'remove',
+            maximize:'remove',
+            smallify:'remove',
+            minimize:'remove',
+
+        },
+          resizeit: false,
+          headerTitle: 'Kopon',
+          theme: 'dark',
+          content: couponEl[0]
+      });
+    }
+
+
+
+  // window.couponPanel.dragit('disable')
+  // window.couponPanel.options.dragit.handles = '.jsPanel-headerlogo, .jsPanel-titlebar, .jsPanel-ftr, .jsPanel-ftr, .card-header';
+  // window.couponPanel.dragit('enable')
+
+  render(html`<${Coupon} />`, couponEl[0]);
+
+</script>
+
+  <script src="https://emedya-cdn.tjk.org/dist/js/BetAdvanced/updateBet.js?v=v251020"></script>
+
+    <!-- ^if Visit in Mobile Devices -->
+    <script>
+      setTimeout(function (){
+        var lastTime = 0;
+        if( localStorage.hasOwnProperty('mobile_popup') ){
+          lastTime = parseInt(localStorage.getItem('mobile_popup'));
+        }
+        if( (lastTime + 86400) < moment().unix() && /Android|Opera Mini|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile/i.test(navigator.userAgent) ){
+          localStorage.setItem('mobile_popup', moment().unix());
+          var modalHtml = '<div class="modal-dialog mobil-popup-daily" role="document" style="max-width: 520px; margin-top: 400px">'+
+                  '<div class="modal-content border-0">'+
+                  '<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute;right: 0px;top: -30px;color: #fff;font-size: 32px;opacity: 1;">'+
+                  '<span aria-hidden="true">&times;</span>'+
+                  '</button>'+
+                  '<div class="modal-body p-1">'+
+                  '<img src="https://emedya-cdn.tjk.org/a/mobile/popup/mobile-popup-bg.png" style="width: 512px;height:500px;position: relative;display:block;">'+
+                  '<a href="https://mobil.tjk.org/App/" class="external-link" style="position: absolute; top: 290px; left: 50%; margin-left: -77px;"><img src="https://emedya-cdn.tjk.org/a/mobile/popup/web-button.png"></a>'+
+                  '<a href="https://www.tjk.org/m/uygulama.html" class="external-link" target="_blank" style="position: absolute; top: 400px; left: 120px;"><img src="https://emedya-cdn.tjk.org/a/mobile/popup/android-button.png"></a>'+
+                  '<a href="https://apps.apple.com/tr/app/tjk-mobil/id735255624?l=tr" class="external-link" target="_blank" style="position: absolute; top: 400px; left: 265px;"><img src="https://emedya-cdn.tjk.org/a/mobile/popup/ios-button.png"></a>'+
+                  '</div>'+
+                  '</div>'+
+                  '</div>';
+          var $html = $(app.utils.render(modalHtml, {}));
+          var $modal = app.utils.loadModal("",{content: $html[0].outerHTML, size: 'md', onEscape: true, centerVertical: false});
+
+          $(window).resize(function (){
+            var ww = $(window).width();
+            var wh = $(window).height();
+            var pw = $modal.find('.mobil-popup-daily').width();
+            var ph = $modal.find('.mobil-popup-daily').height();
+            if( ww / wh < 1 ){
+              $modal.find('.mobil-popup-daily').css({'transform':'scale('+((ww / pw) - 0.5)+')', 'margin-top':'400px'});
+            }
+            else{
+              $modal.find('.mobil-popup-daily').css({'transform':'scale('+((wh / ph) - 0.3)+')', 'margin-top':'0'});
+            }
+          }).trigger('resize');
+        }
+      });
+    </script>
+    <!-- /if Visit in Mobile Devices -->
+
+
+    <!-- ^if popup -->
+    <!--
+    <script>
+        setTimeout(function (){
+          if($('.mobil-popup-daily').length==0){
+            var lastTime = 0;
+            if( localStorage.hasOwnProperty('popup_yarisbasliyor_20230218') ){
+              lastTime = parseInt(localStorage.getItem('popup_yarisbasliyor_20230218'));
+            }
+            if( (lastTime + 86400) < moment().unix() ){
+              localStorage.setItem('popup_yarisbasliyor_20230218', moment().unix());
+              var modalHtml = '<div class="modal-dialog mobil-popup-daily" role="document" style="max-width: 582px; margin-top: 400px">'+
+                      '<div class="modal-content border-0">'+
+                      '<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute;right: 0px;top: -30px;color: #fff;font-size: 32px;opacity: 1;">'+
+                      '<span aria-hidden="true">&times;</span>'+
+                      '</button>'+
+                      '<div class="modal-body p-1">'+
+                      '<a target="_blank" class="external-link" href="https://www.tjk.org/TR/YarisSever/News/Page/44031"><img src="https://emedya-cdn.tjk.org/a/popup/yarisbasliyor18subat.jpg" style="width: 574px;height:459px;position: relative;display:block;"></a>'+
+                      '</div>'+
+                      '</div>'+
+                      '</div>';
+              var $html = $(app.utils.render(modalHtml, {}));
+              var $modal = app.utils.loadModal("",{content: $html[0].outerHTML, size: 'md', onEscape: true, centerVertical: false});
+
+              $(window).resize(function (){
+                var ww = $(window).width();
+                var wh = $(window).height();
+                var pw = $modal.find('.mobil-popup-daily').width();
+                var ph = $modal.find('.mobil-popup-daily').height();
+                
+                
+                $modal.find('.mobil-popup-daily').css({'margin-top':(Math.round(wh-ph)/2)+'px'});
+
+              }).trigger('resize');
+
+            }
+          };
+        }, 1000);
+      
+    </script>
+    -->
+    <!-- /if popup -->
+  </body>
+</html>
