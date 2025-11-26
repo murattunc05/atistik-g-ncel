@@ -85,6 +85,33 @@ class TjkApiService {
     }
   }
   
+  /// Yarış Analizi
+  static Future<Map<String, dynamic>> analyzeRace(List<Map<String, String>> horses) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/analyze-race'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'horses': horses,
+        }),
+      );
+      
+      if (response.statusCode == 200) {
+        return jsonDecode(utf8.decode(response.bodyBytes));
+      } else {
+        return {
+          'success': false,
+          'error': 'Sunucu hatası: ${response.statusCode}',
+        };
+      }
+    } catch (e) {
+      return {
+        'success': false,
+        'error': 'Bağlantı hatası: $e',
+      };
+    }
+  }
+
   /// Yarış arama
   static Future<Map<String, dynamic>> searchRaces({
     String? startDate,

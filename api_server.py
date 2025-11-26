@@ -4,6 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import prediction_logic
+import concurrent.futures
+import pandas as pd
+import numpy as np
+import time
+import re
 
 app = Flask(__name__)
 CORS(app)  # Flutter'dan gelen isteklere izin ver
@@ -738,6 +743,228 @@ def daily_program():
 def health_check():
     """Sunucu sağlık kontrolü"""
     return jsonify({'status': 'ok', 'message': 'TJK API Server çalışıyor'})
+
+def fetch_horse_details_safe(horse_data):
+    """Güvenli bir şekilde at detaylarını çeker (Hata yönetimi ile)"""
+    try:
+        detail_link = horse_data.get('detailLink')
+        if not detail_link:
+            return None
+            
+        full_url = urljoin(TARGET_URL, detail_link).replace("&amp;", "&")
+        
+        # Rastgele bekleme (Anti-bot önlemi)
+        # time.sleep(0.1) 
+        
+        response = requests.get(full_url, headers=HEADERS, timeout=10)
+        if response.status_code != 200:
+            return None
+            
+        soup = BeautifulSoup(response.text, 'html.parser')
+        data_div = soup.find('div', id='dataDiv')
+        if not data_div:
+            return None
+            
+        race_table = data_div.find('table', id='queryTable')
+        if not race_table:
+            return None
+            
+        table_body = race_table.find('tbody', id='tbody0')
+        if not table_body:
+            return None
+            
+        rows = table_body.find_all('tr')
+        races = []
+        
+        # Son 5 yarışı al
+        count = 0
+        for row in rows:
+            if 'hidable' in row.get('class', []):
+                continue
+            
+            if count >= 5:
+                break
+                
+            cells = row.find_all('td')
+            if len(cells) > 17:
+                try:
+                    # Dereceyi parse et (Örn: 1.25.45 -> saniye)
+                    degree_str = cells[12].text.strip() # Derece genellikle 12. indeks civarındadır, kontrol edelim
+                    # TJK tablosunda Derece sütunu değişebilir, ancak genellikle sondan öncekilerdedir.
+                    # Standart TJK tablosu: Tarih, Şehir, Mesafe, Pist, ..., Derece, ...
+                    # api_server.py'deki get_horse_details fonksiyonunda index kullanılmamış, text ile alınmış.
+                    # Burada güvenli olması için tüm satırı alıp analizde işleyeceğiz.
+                    
+                    # Daha sağlam bir yapı için:
+                    race_date = cells[0].text.strip()
+                    city = cells[1].text.strip()
+                    distance = cells[2].text.strip()
+                    track = cells[3].text.strip() # Çim/Kum
+                    rank = cells[4].text.strip() # Sıralama (1, 2, 3...)
+                    weight = cells[6].text.strip() # Kilo
+                    degree = cells[12].text.strip() # Derece
+                    
+                    races.append({
+                        'date': race_date,
+                        'city': city,
+                        'distance': distance,
+                        'track': track,
+                        'rank': rank,
+                        'weight': weight,
+                        'degree': degree
+                    })
+                    count += 1
+                except:
+                    continue
+        
+        return {
+            'name': horse_data.get('name'),
+            'races': races
+        }
+        
+    except Exception as e:
+        print(f"Error fetching details for {horse_data.get('name')}: {e}")
+        return None
+
+def calculate_seconds(degree_str):
+    """Derece stringini (1.24.50) saniyeye çevirir"""
+    try:
+        if not degree_str or degree_str == '-':
+            return None
+        parts = degree_str.split('.')
+        if len(parts) == 3:
+            return int(parts[0]) * 60 + int(parts[1]) + int(parts[2]) / 100
+        elif len(parts) == 2: # Sadece saniye.salise
+             return int(parts[0]) + int(parts[1]) / 100
+        return None
+    except:
+        return None
+
+@app.route('/api/analyze-race', methods=['POST'])
+def analyze_race():
+    """Yarış Analizi ve Tahmin Modülü"""
+    try:
+        start_time = time.time()
+        data = request.json
+        horses = data.get('horses', [])
+        
+        if not horses:
+            return jsonify({'success': False, 'error': 'At listesi boş'}), 400
+            
+        # 1. Paralel Veri Madenciliği
+        analyzed_horses = []
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            future_to_horse = {executor.submit(fetch_horse_details_safe, horse): horse for horse in horses}
+            
+            for future in concurrent.futures.as_completed(future_to_horse):
+                horse_data = future.result()
+                if horse_data and horse_data.get('races'):
+                    # 2. Matematiksel Motor
+                    races = horse_data['races']
+                    
+                    # Metrikler
+                    speed_ratings = []
+                    ranks = []
+                    
+                    for i, race in enumerate(races):
+                        # Weighted Speed Rating
+                        dist = int(race['distance']) if race['distance'].isdigit() else 0
+                        seconds = calculate_seconds(race['degree'])
+                        
+                        if dist > 0 and seconds and seconds > 0:
+                            raw_speed = dist / seconds # Metre/Saniye
+                            
+                            # Ağırlık katsayısı (Son yarış daha önemli)
+                            # 0. index en son yarış -> ağırlık 1.0
+                            # 4. index en eski -> ağırlık 0.6
+                            weight_factor = 1.0 - (i * 0.1) 
+                            speed_ratings.append(raw_speed * weight_factor)
+                        
+                        # Rank
+                        try:
+                            rank_val = int(re.sub(r'[^0-9]', '', race['rank']))
+                            ranks.append(rank_val)
+                        except:
+                            pass
+                            
+                    # Hesaplamalar
+                    avg_speed = np.mean(speed_ratings) if speed_ratings else 0
+                    
+                    # Form Trend (Eğim)
+                    # Son yarışlar (düşük index) daha iyi olmalı.
+                    # Eğer ranks [1, 2, 3, 4, 5] ise trend kötüleşiyor.
+                    # Eğer ranks [5, 4, 3, 2, 1] ise trend iyileşiyor.
+                    # Basitçe: Son yarış sıralaması ortalamadan iyiyse pozitif trend.
+                    if len(ranks) >= 2:
+                        # x ekseni: zaman (eski -> yeni). Yani listeyi ters çevirip slope bakacağız.
+                        y = np.array(ranks[::-1]) # [5, 4, 3, 2, 1] -> İyileşiyor
+                        x = np.arange(len(y))
+                        slope, _ = np.polyfit(x, y, 1)
+                        # Slope negatifse sıralama düşüyor (iyileşiyor) -> Pozitif form
+                        form_trend = -slope 
+                    else:
+                        form_trend = 0
+                        
+                    # Consistency (Standart Sapma)
+                    consistency = np.std(ranks) if ranks else 10 # Düşük daha iyi
+                    # 0-10 arası bir puana çevirelim (0=Çok istikrarsız, 10=Çok istikrarlı)
+                    consistency_score = max(0, 10 - consistency)
+                    
+                    # Genel Skor (0-100)
+                    # Hız puanını normalize et (Örn: 15-18 m/s arası değişir)
+                    # 16 m/s -> 80 puan baz alalım.
+                    speed_score = min(100, (avg_speed / 18.0) * 100 * 1.2) # Basit normalizasyon
+                    
+                    # Form puanı (-2 ile +2 arası değişebilir, 50 baz puan ekle)
+                    form_score = 50 + (form_trend * 10)
+                    
+                    # Ağırlıklı Ortalama
+                    # Hız %50, Form %30, İstikrar %20
+                    overall_score = (speed_score * 0.5) + (form_score * 0.3) + (consistency_score * 10 * 0.2)
+                    
+                    # Prediction Text
+                    prediction = "Normal"
+                    if overall_score > 85:
+                        prediction = "Favori"
+                    elif overall_score > 70:
+                        prediction = "Plase"
+                    elif form_trend > 0.5:
+                        prediction = "Formda"
+                    elif avg_speed > 17:
+                        prediction = "Süratli"
+                    
+                    analyzed_horses.append({
+                        'name': horse_data['name'],
+                        'overallScore': round(overall_score, 1),
+                        'speedScore': round(speed_score, 1),
+                        'formTrend': "UP" if form_trend > 0 else "DOWN",
+                        'consistency': round(consistency_score, 1),
+                        'prediction': prediction
+                    })
+                else:
+                    # Veri çekilemediyse veya yarış yoksa
+                    analyzed_horses.append({
+                        'name': future_to_horse[future].get('name'),
+                        'overallScore': 0,
+                        'speedScore': 0,
+                        'formTrend': "-",
+                        'consistency': 0,
+                        'prediction': "Veri Yok"
+                    })
+
+        # Sıralama (Yüksek puandan düşüğe)
+        analyzed_horses.sort(key=lambda x: x['overallScore'], reverse=True)
+        
+        return jsonify({
+            'success': True,
+            'results': analyzed_horses,
+            'processTime': round(time.time() - start_time, 2)
+        })
+        
+    except Exception as e:
+        print(f"Analyze Error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
     import os

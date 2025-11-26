@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/daily_race_model.dart';
+import 'race_analysis_screen.dart';
 
 class RaceDetailScreen extends StatelessWidget {
   final DailyRaceModel race;
@@ -48,6 +49,38 @@ class RaceDetailScreen extends StatelessWidget {
                 _buildInfoItem(Icons.terrain, race.trackType),
                 _buildInfoItem(Icons.emoji_events, race.prize),
               ],
+            ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  // At listesini hazırla
+                  final horses = race.horses.map((h) => {
+                    'name': h.name,
+                    'detailLink': h.detailLink,
+                  }).toList();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RaceAnalysisScreen(horses: horses),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.analytics_outlined),
+                label: const Text('DETAYLI ANALİZ ET'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigoAccent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
