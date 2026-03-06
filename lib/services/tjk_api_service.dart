@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
 
 class TjkApiService {
-  // API base URL - PRODUCTION (Railway)
-  static const String baseUrl = 'https://web-production-09256.up.railway.app';
+  // API base URL - PRODUCTION (Render.com)
+  static const String baseUrl = 'https://atistik-backend.onrender.com';
   
   // TJK direct URLs - For daily races (no backend needed)
   static const String tjkBaseUrl = 'https://www.tjk.org';
