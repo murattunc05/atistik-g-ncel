@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
 
 class TjkApiService {
-  // API base URL - Production (Railway) - For horse/race search features
+  // API base URL - PRODUCTION (Railway)
   static const String baseUrl = 'https://web-production-09256.up.railway.app';
   
   // TJK direct URLs - For daily races (no backend needed)
@@ -85,16 +85,24 @@ class TjkApiService {
     }
   }
   
-  /// Yarış Analizi
-  static Future<Map<String, dynamic>> analyzeRace(List<Map<String, String>> horses) async {
+  /// Yarış Analizi - Gelişmiş AI Engine
+  static Future<Map<String, dynamic>> analyzeRace({
+    required List<Map<String, dynamic>> horses,
+    String targetDistance = '',
+    String targetTrack = '',
+    String raceId = '',  // YENİ: İdman bilgileri için koşu ID'si
+  }) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/api/analyze-race'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'horses': horses,
+          'targetDistance': targetDistance,
+          'targetTrack': targetTrack,
+          'raceId': raceId,  // İdman verileri için
         }),
-      );
+      ).timeout(const Duration(seconds: 60)); // Backend işlem süresi için uzun timeout
       
       if (response.statusCode == 200) {
         return jsonDecode(utf8.decode(response.bodyBytes));
