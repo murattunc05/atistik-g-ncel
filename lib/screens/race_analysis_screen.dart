@@ -60,7 +60,8 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
           'no': h['no']?.toString() ?? '',
           'jockey': h['jockey']?.toString() ?? '',
           'weight': h['weight']?.toString() ?? '',
-          'father': h['father']?.toString() ?? '',   // FAZ 4.6: Pedigri analizi için
+          'father': h['father']?.toString() ?? '',   // FAZ 4.6
+          'hp': h['hp']?.toString() ?? '',           // FAZ 5.2
         }).toList(),
         targetDistance: widget.distance,
         targetTrack: widget.trackType,
