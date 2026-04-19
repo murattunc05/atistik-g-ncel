@@ -1214,9 +1214,21 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
         : confScore >= 0.45 ? const Color(0xFFFFA726)
         : const Color(0xFFEF5350);
         
-    // FAZ 5.2: HP (Handikap) verilerini bul
-    final hpValue = widget.horses.firstWhere((h) => h['name'] == horse['name'], orElse: () => <String, dynamic>{})['hp']?.toString() ?? '';
-    final hasHp = hpValue.isNotEmpty;
+    // FAZ 5.2: HP (Handikap) verilerini bul - Güvenli Eşleştirme
+    String hpValue = '';
+    try {
+      final matchingHorse = widget.horses.firstWhere(
+        (h) => h['name']?.toString().trim().toUpperCase() == horse['name']?.toString().trim().toUpperCase(),
+        orElse: () => <String, dynamic>{}
+      );
+      hpValue = matchingHorse['hp']?.toString().trim() ?? '';
+    } catch (e) {
+      // Bulunamazsa boş atla
+    }
+    
+    // Maiden atlarda HP genelde '-' olur. Geçerli bir sayıysa UI'da göster.
+    final hasHp = hpValue.isNotEmpty && hpValue != '-' && hpValue != '0';
+    print('DEBUG: At: ${horse['name']} | hpValue: "$hpValue" | HP Gosterilecek_Mi: $hasHp');
 
     return ListView(
       controller: controller,
