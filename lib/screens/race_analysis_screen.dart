@@ -1213,6 +1213,10 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
     final confColor     = confScore >= 0.75 ? const Color(0xFF4CAF50)
         : confScore >= 0.45 ? const Color(0xFFFFA726)
         : const Color(0xFFEF5350);
+        
+    // FAZ 5.2: HP (Handikap) verilerini bul
+    final hpValue = widget.horses.firstWhere((h) => h['name'] == horse['name'], orElse: () => <String, dynamic>{})['hp']?.toString() ?? '';
+    final hasHp = hpValue.isNotEmpty;
 
     return ListView(
       controller: controller,
@@ -1220,7 +1224,7 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
       children: [
 
         // === FAZ 4.8: VERİ GÜVENİ + PEDİGRİ + TEMPO ===
-        if (confLabel.isNotEmpty || pedigreeInfo != null || paceInfo != null) ...[
+        if (confLabel.isNotEmpty || pedigreeInfo != null || paceInfo != null || hasHp) ...[
           _buildSectionTitle('Master Analiz (4.7)', isDark),
           const SizedBox(height: 6),
 
@@ -1253,6 +1257,37 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
                         color: confColor,
                         minHeight: 5,
                       ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+          // FAZ 5.2: Handikap Puanı Satırı
+          if (hasHp)
+            Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: isDark ? Colors.white.withOpacity(0.04) : Colors.amber.shade50.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: isDark ? Colors.white.withOpacity(0.08) : Colors.amber.shade200),
+              ),
+              child: Row(
+                children: [
+                  const Text('🏆', style: TextStyle(fontSize: 13)),
+                  const SizedBox(width: 6),
+                  Text('Sınıf Kalitesi (HP)', style: TextStyle(color: isDark ? Colors.grey[300] : Colors.black87, fontSize: 12, fontWeight: FontWeight.bold)),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: isDark ? Colors.amber.withOpacity(0.2) : Colors.amber.shade100,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      hpValue,
+                      style: TextStyle(color: isDark ? Colors.amber.shade200 : Colors.amber.shade900, fontSize: 11, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
