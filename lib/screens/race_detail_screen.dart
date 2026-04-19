@@ -77,7 +77,8 @@ class _RaceDetailScreenState extends State<RaceDetailScreen> {
                     'jockey': h.jockey,
                     'weight': h.weight,
                     'father': h.father,   // FAZ 4.6: Pedigri analizi için
-                    'hp': h.hp,           // FAZ 5.2: HP Kalite Puanı için
+                    'hp': h.hp,           // FAZ 5.2: Handikap Puanı
+                    'agf': h.agf,         // FAZ 5.2: AGF
                   }).toList();
 
                   Navigator.push(
