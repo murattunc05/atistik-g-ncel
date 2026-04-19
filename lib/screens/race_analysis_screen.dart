@@ -60,6 +60,7 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
           'no': h['no']?.toString() ?? '',
           'jockey': h['jockey']?.toString() ?? '',
           'weight': h['weight']?.toString() ?? '',
+          'father': h['father']?.toString() ?? '',   // FAZ 4.6: Pedigri analizi için
         }).toList(),
         targetDistance: widget.distance,
         targetTrack: widget.trackType,
@@ -630,91 +631,145 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
         borderRadius: BorderRadius.circular(14),
         child: Padding(
           padding: const EdgeInsets.all(14),
-          child: Row(
+          child: Column(
             children: [
-              // Rank badge
-              Container(
-                width: 36, height: 36,
-                decoration: BoxDecoration(
-                  gradient: isWinner ? LinearGradient(colors: [AppTheme.primary, AppTheme.primary.withOpacity(0.8)]) : null,
-                  color: isWinner ? null : (isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade100),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: isWinner 
-                    ? const Icon(Icons.emoji_events, color: Colors.white, size: 18)
-                    : Text('$rank', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[700], fontWeight: FontWeight.bold, fontSize: 14)),
-                ),
-              ),
-              const SizedBox(width: 12),
-              
-              // Name, form and best degree
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name, 
-                      style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontWeight: isWinner ? FontWeight.bold : FontWeight.w500, fontSize: isWinner ? 15 : 14), 
-                      overflow: TextOverflow.ellipsis, maxLines: 1,
+              Row(
+                children: [
+                  // Rank badge
+                  Container(
+                    width: 36, height: 36,
+                    decoration: BoxDecoration(
+                      gradient: isWinner ? LinearGradient(colors: [AppTheme.primary, AppTheme.primary.withOpacity(0.8)]) : null,
+                      color: isWinner ? null : (isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade100),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const SizedBox(height: 3),
-                    Row(
+                    child: Center(
+                      child: isWinner 
+                        ? const Icon(Icons.emoji_events, color: Colors.white, size: 18)
+                        : Text('$rank', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[700], fontWeight: FontWeight.bold, fontSize: 14)),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  
+                  // Name, form and best degree
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (horseNo.isNotEmpty) ...[
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                            decoration: BoxDecoration(
-                              color: isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            child: Text('#$horseNo', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9, fontWeight: FontWeight.w500)),
-                          ),
-                          const SizedBox(width: 6),
-                        ],
-                        if (formTrend.isNotEmpty && formTrend != '-') ...[
-                          Icon(
-                            formTrend == 'UP' ? Icons.trending_up : formTrend == 'DOWN' ? Icons.trending_down : Icons.trending_flat,
-                            size: 12,
-                            color: formTrend == 'UP' ? Colors.green : formTrend == 'DOWN' ? Colors.red[400] : Colors.grey,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            formTrend == 'UP' ? 'Yükselişte' : formTrend == 'DOWN' ? 'Düşüşte' : 'Stabil',
-                            style: TextStyle(color: Colors.grey[500], fontSize: 11),
-                          ),
-                        ],
-                        if (bestDegree.isNotEmpty && bestDegree != '-') ...[
-                          const SizedBox(width: 6),
-                          Icon(Icons.timer_outlined, size: 11, color: Colors.grey[500]),
-                          const SizedBox(width: 2),
-                          Text(bestDegree, style: TextStyle(color: Colors.grey[500], fontSize: 10)),
-                        ],
+                        Text(
+                          name, 
+                          style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontWeight: isWinner ? FontWeight.bold : FontWeight.w500, fontSize: isWinner ? 15 : 14), 
+                          overflow: TextOverflow.ellipsis, maxLines: 1,
+                        ),
+                        const SizedBox(height: 3),
+                        Row(
+                          children: [
+                            if (horseNo.isNotEmpty) ...[
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                decoration: BoxDecoration(
+                                  color: isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                child: Text('#$horseNo', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9, fontWeight: FontWeight.w500)),
+                              ),
+                              const SizedBox(width: 6),
+                            ],
+                            if (formTrend.isNotEmpty && formTrend != '-') ...[
+                              Icon(
+                                formTrend == 'UP' ? Icons.trending_up : formTrend == 'DOWN' ? Icons.trending_down : Icons.trending_flat,
+                                size: 12,
+                                color: formTrend == 'UP' ? Colors.green : formTrend == 'DOWN' ? Colors.red[400] : Colors.grey,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                formTrend == 'UP' ? 'Yükselişte' : formTrend == 'DOWN' ? 'Düşüşte' : 'Stabil',
+                                style: TextStyle(color: Colors.grey[500], fontSize: 11),
+                              ),
+                            ],
+                            if (bestDegree.isNotEmpty && bestDegree != '-') ...[
+                              const SizedBox(width: 6),
+                              Icon(Icons.timer_outlined, size: 11, color: Colors.grey[500]),
+                              const SizedBox(width: 2),
+                              Text(bestDegree, style: TextStyle(color: Colors.grey[500], fontSize: 10)),
+                            ],
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  
+                  // Score + Kazanma İhtimali
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: scoreColor.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: scoreColor.withOpacity(0.3)),
+                        ),
+                        child: Text(aiScore.toStringAsFixed(0), style: TextStyle(color: scoreColor, fontWeight: FontWeight.bold, fontSize: 14)),
+                      ),
+                      // FAZ 5.1: Kazanma olasılığı
+                      Builder(builder: (ctx) {
+                        final prob = (horse['winProbability'] as num?)?.toDouble();
+                        if (prob == null) return const SizedBox.shrink();
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Text(
+                            '%${prob.toStringAsFixed(1)}',
+                            style: TextStyle(
+                              color: scoreColor,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                  
+                  const SizedBox(width: 6),
+                  Icon(Icons.chevron_right, color: Colors.grey[600], size: 20),
+                ],
               ),
-              
-              // Score
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: scoreColor.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: scoreColor.withOpacity(0.3)),
-                ),
-                child: Text(aiScore.toStringAsFixed(0), style: TextStyle(color: scoreColor, fontWeight: FontWeight.bold, fontSize: 14)),
-              ),
-              
-              const SizedBox(width: 6),
-              Icon(Icons.chevron_right, color: Colors.grey[600], size: 20),
+              // FAZ 4.8: Prediction + Confidence satırı
+              Builder(builder: (context) {
+                final prediction = horse['prediction']?.toString() ?? '';
+                final confidence = horse['dataConfidence'] as Map<String, dynamic>?;
+                final confLabel = confidence?['label']?.toString() ?? '';
+                if (prediction.isEmpty && confLabel.isEmpty) return const SizedBox.shrink();
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    children: [
+                      if (prediction.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primary.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: AppTheme.primary.withOpacity(0.25)),
+                          ),
+                          child: Text(prediction, style: TextStyle(color: AppTheme.primary, fontSize: 10, fontWeight: FontWeight.bold)),
+                        ),
+                      if (prediction.isNotEmpty && confLabel.isNotEmpty) const SizedBox(width: 8),
+                      if (confLabel.isNotEmpty)
+                        Text(confLabel, style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 10)),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
         ),
       ),
     );
   }
+
+
 
   // === BOTTOM SHEET POP-UP ===
   void _showHorseDetailSheet(dynamic horse, bool isDark) {
@@ -833,7 +888,31 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(prediction, style: TextStyle(color: AppTheme.primary, fontSize: 12, fontWeight: FontWeight.bold)),
+                              Row(
+                                children: [
+                                  Text(prediction, style: TextStyle(color: AppTheme.primary, fontSize: 12, fontWeight: FontWeight.bold)),
+                                  const Spacer(),
+                                  // FAZ 4.8: Veri Güveni badge
+                                  Builder(builder: (ctx) {
+                                    final conf = horse['dataConfidence'] as Map<String, dynamic>?;
+                                    final confScore = ((conf?['score'] as num?)?.toDouble() ?? 0.0);
+                                    final confLabel = conf?['label']?.toString() ?? '';
+                                    final confColor = confScore >= 0.75 ? const Color(0xFF4CAF50)
+                                        : confScore >= 0.45 ? const Color(0xFFFFA726)
+                                        : const Color(0xFFEF5350);
+                                    if (confLabel.isEmpty) return const SizedBox.shrink();
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: confColor.withOpacity(0.12),
+                                        borderRadius: BorderRadius.circular(4),
+                                        border: Border.all(color: confColor.withOpacity(0.3)),
+                                      ),
+                                      child: Text(confLabel, style: TextStyle(color: confColor, fontSize: 9, fontWeight: FontWeight.w600)),
+                                    );
+                                  }),
+                                ],
+                              ),
                               if (insight.isNotEmpty) ...[
                                 const SizedBox(height: 4),
                                 Text(insight, style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 11)),
@@ -904,6 +983,8 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
   }
 
   // === YARIŞLAR SEKME İÇERİĞİ ===
+  int? _expandedRaceIndex; // Genişletilmiş yarış kartı indeksi
+
   Widget _buildRacesTab(List<dynamic> filteredRaces, List<dynamic> raceHistory, int raceCount, int filteredRaceCount, bool isDark, ScrollController controller) {
     // SADECE mesafe bazlı filtrelenmiş yarışları göster
     final racesToShow = filteredRaces;
@@ -924,112 +1005,359 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
       );
     }
 
-    return ListView.builder(
-      controller: controller,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      itemCount: racesToShow.length + 1,
-      itemBuilder: (context, index) {
-        if (index == racesToShow.length) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Center(
-              child: Text(
-                isFiltered ? '$filteredRaceCount/$raceCount yarış (mesafe bazlı)' : '$raceCount yarış verisi',
-                style: TextStyle(color: Colors.grey[600], fontSize: 10, fontStyle: FontStyle.italic),
-              ),
-            ),
-          );
-        }
+    return StatefulBuilder(
+      builder: (context, setLocalState) {
+        return ListView.builder(
+          controller: controller,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          itemCount: racesToShow.length + 1,
+          itemBuilder: (context, index) {
+            if (index == racesToShow.length) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Center(
+                  child: Text(
+                    isFiltered ? '$filteredRaceCount/$raceCount yarış (mesafe bazlı)' : '$raceCount yarış verisi',
+                    style: TextStyle(color: Colors.grey[600], fontSize: 10, fontStyle: FontStyle.italic),
+                  ),
+                ),
+              );
+            }
 
-        final race = racesToShow[index];
-        final rank = race['rank']?.toString() ?? '-';
-        final degree = race['degree']?.toString() ?? '-';
-        final date = race['date']?.toString() ?? '';
-        final city = race['city']?.toString() ?? '';
-        final group = race['group']?.toString() ?? '';
-        final trackCond = race['trackCondition']?.toString() ?? '';
-        final distance = race['distance']?.toString() ?? '';
-        final jockey = race['jockey']?.toString() ?? '';
+            final race = racesToShow[index];
+            final rank = race['rank']?.toString() ?? '-';
+            final degree = race['degree']?.toString() ?? '-';
+            final date = race['date']?.toString() ?? '';
+            final city = race['city']?.toString() ?? '';
+            final group = race['raceType']?.toString() ?? race['group']?.toString() ?? '';
+            final trackCond = race['trackCondition']?.toString() ?? '';
+            final distance = race['distance']?.toString() ?? '';
+            final jockey = race['jockey']?.toString() ?? '';
+            final weight = race['weight']?.toString() ?? '';
+            final track = race['track']?.toString() ?? '';
+            final isExpanded = _expandedRaceIndex == index;
 
+            Color rankColor = Colors.grey;
+            if (rank == '1') rankColor = Colors.green;
+            else if (rank == '2') rankColor = Colors.blue;
+            else if (rank == '3') rankColor = Colors.orange;
+            else if (rank == '0' || rank.contains('k')) rankColor = Colors.red[700]!;
 
-        Color rankColor = Colors.grey;
-        if (rank == '1') rankColor = Colors.green;
-        else if (rank == '2') rankColor = Colors.blue;
-        else if (rank == '3') rankColor = Colors.orange;
-        else if (rank == '0' || rank.contains('k')) rankColor = Colors.red[700]!;
-
-        return Container(
-          margin: const EdgeInsets.only(bottom: 6),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: isDark ? Colors.white.withOpacity(0.04) : Colors.grey.shade50,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 28, height: 28,
-                decoration: BoxDecoration(color: rankColor, borderRadius: BorderRadius.circular(6)),
-                child: Center(child: Text(rank == '0' ? 'X' : rank, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 2,
+            return GestureDetector(
+              onTap: () {
+                setLocalState(() {
+                  _expandedRaceIndex = isExpanded ? null : index;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                margin: const EdgeInsets.only(bottom: 6),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: isExpanded
+                      ? (isDark ? Colors.white.withOpacity(0.07) : Colors.white)
+                      : (isDark ? Colors.white.withOpacity(0.04) : Colors.grey.shade50),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: isExpanded
+                        ? AppTheme.primary.withOpacity(0.3)
+                        : (isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200),
+                  ),
+                  boxShadow: isExpanded && !isDark
+                      ? [BoxShadow(color: Colors.grey.shade200, blurRadius: 6, offset: const Offset(0, 2))]
+                      : null,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(degree, style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 15, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 2),
+                    // === ÖZET SATIRI (Her zaman görünür) ===
                     Row(
                       children: [
-                        if (group.isNotEmpty)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                            decoration: BoxDecoration(
-                              color: isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            child: Text(group, style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9, fontWeight: FontWeight.w500)),
+                        Container(
+                          width: 28, height: 28,
+                          decoration: BoxDecoration(color: rankColor, borderRadius: BorderRadius.circular(6)),
+                          child: Center(child: Text(rank == '0' ? 'X' : rank, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(degree, style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 15, fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  if (group.isNotEmpty)
+                                    Flexible(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                        decoration: BoxDecoration(
+                                          color: isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200,
+                                          borderRadius: BorderRadius.circular(3),
+                                        ),
+                                        child: Text(
+                                          group,
+                                          style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9, fontWeight: FontWeight.w500),
+                                          overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                          maxLines: isExpanded ? 3 : 1,
+                                        ),
+                                      ),
+                                    ),
+                                  if (group.isNotEmpty && distance.isNotEmpty) const SizedBox(width: 4),
+                                  if (distance.isNotEmpty)
+                                    Text('${distance}m', style: TextStyle(color: Colors.grey[500], fontSize: 9)),
+                                ],
+                              ),
+                            ],
                           ),
-                        if (group.isNotEmpty && distance.isNotEmpty) const SizedBox(width: 4),
-                        if (distance.isNotEmpty)
-                          Text('${distance}m', style: TextStyle(color: Colors.grey[500], fontSize: 9)),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(date, style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 10)),
+                              if (city.isNotEmpty) Text(city, style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[500], fontSize: 9)),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        AnimatedRotation(
+                          turns: isExpanded ? 0.25 : 0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(Icons.chevron_right, size: 16, color: isDark ? Colors.grey[600] : Colors.grey[400]),
+                        ),
                       ],
+                    ),
+
+                    // === DETAY BÖLÜMÜ (Genişletildiğinde görünür) ===
+                    AnimatedCrossFade(
+                      firstChild: const SizedBox.shrink(),
+                      secondChild: Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(height: 1, color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
+                            const SizedBox(height: 10),
+                            // Detay grid
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 6,
+                              children: [
+                                if (jockey.isNotEmpty)
+                                  _buildRaceDetailChip(Icons.person, 'Jokey', jockey, isDark),
+                                if (group.isNotEmpty)
+                                  _buildRaceDetailChip(Icons.category, 'Grup', group, isDark, fullWidth: true),
+                                if (weight.isNotEmpty)
+                                  _buildRaceDetailChip(Icons.fitness_center, 'Sıklet', '${weight}kg', isDark),
+                                if (track.isNotEmpty)
+                                  _buildRaceDetailChip(Icons.terrain, 'Pist', track, isDark),
+                                if (trackCond.isNotEmpty)
+                                  _buildRaceDetailChip(Icons.water_drop, 'Pist Durumu', trackCond, isDark),
+                                if (distance.isNotEmpty)
+                                  _buildRaceDetailChip(Icons.straighten, 'Mesafe', '${distance}m', isDark),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                      duration: const Duration(milliseconds: 250),
+                      sizeCurve: Curves.easeInOut,
                     ),
                   ],
                 ),
               ),
-              if (jockey.isNotEmpty)
-                Expanded(
-                  flex: 2,
-                  child: Text(jockey, style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 11), textAlign: TextAlign.center, overflow: TextOverflow.ellipsis),
-                ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(date, style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 10)),
-                    if (city.isNotEmpty) Text(city, style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[500], fontSize: 9)),
-                    if (trackCond.isNotEmpty)
-                      Text(trackCond, style: TextStyle(color: isDark ? Colors.grey[600] : Colors.grey[500], fontSize: 8)),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
   }
 
+  Widget _buildRaceDetailChip(IconData icon, String label, String value, bool isDark, {bool fullWidth = false}) {
+    return Container(
+      width: fullWidth ? double.infinity : null,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
+        children: [
+          Icon(icon, size: 11, color: isDark ? Colors.grey[500] : Colors.grey[600]),
+          const SizedBox(width: 5),
+          Text('$label: ', style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 9)),
+          Flexible(
+            child: Text(value, style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 10, fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+  }
+
   // === ISTATISTIKLER SEKME ICERIGI ===
   Widget _buildStatsTab(dynamic horse, Map<String, dynamic> stats, Map<String, dynamic>? jockeyStats, num? weightChange, Map<String, dynamic> degreeStats, bool isDark, ScrollController controller) {
+    // FAZ 4.8: Yeni alanlar
+    final pedigreeInfo  = horse['pedigreeInfo']  as Map<String, dynamic>?;
+    final paceInfo      = horse['paceInfo']      as Map<String, dynamic>?;
+    final confidence    = horse['dataConfidence'] as Map<String, dynamic>?;
+    final confScore     = ((confidence?['score'] as num?)?.toDouble() ?? 0.0);
+    final confLabel     = confidence?['label']?.toString() ?? '';
+    final confColor     = confScore >= 0.75 ? const Color(0xFF4CAF50)
+        : confScore >= 0.45 ? const Color(0xFFFFA726)
+        : const Color(0xFFEF5350);
+
     return ListView(
       controller: controller,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       children: [
+
+        // === FAZ 4.8: VERİ GÜVENİ + PEDİGRİ + TEMPO ===
+        if (confLabel.isNotEmpty || pedigreeInfo != null || paceInfo != null) ...[
+          _buildSectionTitle('Master Analiz (4.7)', isDark),
+          const SizedBox(height: 6),
+
+          // Veri Güven Satırı
+          if (confLabel.isNotEmpty)
+            Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: confColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: confColor.withOpacity(0.25)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.verified_outlined, size: 14, color: confColor),
+                  const SizedBox(width: 8),
+                  Text('Veri Güveni', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 11)),
+                  const Spacer(),
+                  Text(confLabel, style: TextStyle(color: confColor, fontSize: 11, fontWeight: FontWeight.bold)),
+                  const SizedBox(width: 8),
+                  // Güven barı
+                  SizedBox(
+                    width: 60,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(3),
+                      child: LinearProgressIndicator(
+                        value: confScore,
+                        backgroundColor: confColor.withOpacity(0.15),
+                        color: confColor,
+                        minHeight: 5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // Pedigri Satırı
+          if (pedigreeInfo != null && pedigreeInfo['sireName'] != null && (pedigreeInfo['sireName'] as String).isNotEmpty)
+            Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: isDark ? Colors.white.withOpacity(0.04) : Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text('🧬', style: TextStyle(fontSize: 13)),
+                      const SizedBox(width: 6),
+                      Text('Pedigri', style: TextStyle(color: isDark ? Colors.grey[300] : Colors.black87, fontSize: 12, fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          pedigreeInfo['sireName'].toString(),
+                          style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 11),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      // Data quality badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: pedigreeInfo['dataQuality'] == 'HIGH'
+                              ? const Color(0xFF4CAF50).withOpacity(0.15)
+                              : pedigreeInfo['dataQuality'] == 'LOW'
+                                  ? const Color(0xFFFFA726).withOpacity(0.15)
+                                  : Colors.grey.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          pedigreeInfo['dataQuality'] == 'HIGH' ? 'Yüksek Veri'
+                              : pedigreeInfo['dataQuality'] == 'LOW' ? 'Az Veri' : 'Veri Yok',
+                          style: TextStyle(
+                            color: pedigreeInfo['dataQuality'] == 'HIGH' ? const Color(0xFF4CAF50)
+                                : pedigreeInfo['dataQuality'] == 'LOW' ? const Color(0xFFFFA726)
+                                : Colors.grey,
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(child: _buildMiniStat('Pedigri Skoru', '${(pedigreeInfo['pedigreeScore'] as num?)?.toStringAsFixed(0) ?? '-'}', isDark)),
+                      const SizedBox(width: 6),
+                      Expanded(child: _buildMiniStat('Pist', pedigreeInfo['trackCompatibility']?.toString() ?? '-', isDark)),
+                      const SizedBox(width: 6),
+                      Expanded(child: _buildMiniStat('Mesafe', pedigreeInfo['distanceCompatibility']?.toString() ?? '-', isDark)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+          // Tempo Satırı
+          if (paceInfo != null)
+            Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: isDark ? Colors.white.withOpacity(0.04) : Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.directions_run, size: 14, color: Color(0xFF7B61FF)),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${paceInfo['runningStyle'] ?? '-'} • ${paceInfo['paceScenario'] ?? '-'}',
+                        style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 11, fontWeight: FontWeight.w600),
+                      ),
+                      Text('Koşu Stili & Tempo', style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 9)),
+                    ],
+                  ),
+                  const Spacer(),
+                  Text(
+                    '${(paceInfo['paceScore'] as num?)?.toStringAsFixed(0) ?? '-'}',
+                    style: const TextStyle(color: Color(0xFF7B61FF), fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+
+          const SizedBox(height: 8),
+        ],
+
         if (jockeyStats != null && jockeyStats['name'] != null && jockeyStats['name'].toString().isNotEmpty) ...[
           _buildSectionTitle('Jokey', isDark),
           const SizedBox(height: 6),
@@ -1170,7 +1498,7 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
                                 children: [
                                   Icon(Icons.speed, size: 13, color: AppTheme.primary),
                                   const SizedBox(width: 4),
-                                  Text('En İyi İdman', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9)),
+                                  Text('Son İdman', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9)),
                                 ],
                               ),
                               const SizedBox(height: 4),
@@ -1244,6 +1572,130 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
                       ),
                     ],
                   ),
+
+                  // === GÜNCEL DURUM: İdman Proj. + Yarış Ort. ===
+                  Builder(builder: (context) {
+                    final projectedSecs = (ti['projectedDegreeSeconds'] as num?)?.toDouble() ?? 0;
+                    final projectedDegree = ti['projectedDegree']?.toString() ?? '';
+                    final avgDegFmt = (horse['degreeStats'] as Map<String, dynamic>?)?['avgDegreeFormatted']?.toString() ?? '';
+                    final avgDegSecs = ((horse['degreeStats'] as Map<String, dynamic>?)?['avgDegree'] as num?)?.toDouble() ?? 0;
+                    final trainingDegScore = (ti['trainingDegreeScore'] as num?)?.toDouble() ?? 50;
+                    
+                    if (projectedSecs > 0 && avgDegSecs > 0) {
+                      Color statusColor;
+                      String statusLabel;
+                      IconData statusIcon;
+                      if (trainingDegScore >= 65) {
+                        statusColor = Colors.green;
+                        statusLabel = 'İdman Formda';
+                        statusIcon = Icons.trending_up;
+                      } else if (trainingDegScore >= 45) {
+                        statusColor = Colors.orange;
+                        statusLabel = 'Uyumlu';
+                        statusIcon = Icons.check_circle_outline;
+                      } else {
+                        statusColor = Colors.red[400]!;
+                        statusLabel = 'İdman Geride';
+                        statusIcon = Icons.trending_down;
+                      }
+                      
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [statusColor.withOpacity(0.08), statusColor.withOpacity(0.03)],
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: statusColor.withOpacity(0.2)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.analytics, size: 13, color: statusColor),
+                                  const SizedBox(width: 5),
+                                  Text('Güncel Durum', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9, fontWeight: FontWeight.w600)),
+                                  const Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: statusColor.withOpacity(0.15),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(statusIcon, size: 10, color: statusColor),
+                                        const SizedBox(width: 3),
+                                        Text(statusLabel, style: TextStyle(color: statusColor, fontSize: 8, fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              // İdman Proj. + Yarış Ort. yan yana
+                              Row(
+                                children: [
+                                  // İdman Proj.
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: isDark ? Colors.white.withOpacity(0.04) : Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text('Son İdman', style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 8)),
+                                          const SizedBox(height: 3),
+                                          Text(
+                                            projectedDegree.isNotEmpty ? projectedDegree : '-',
+                                            style: TextStyle(color: statusColor, fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                                    child: Icon(Icons.add, size: 14, color: isDark ? Colors.grey[600] : Colors.grey[400]),
+                                  ),
+                                  // Yarış Ort.
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: isDark ? Colors.white.withOpacity(0.04) : Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text('Yarış Ort.', style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 8)),
+                                          const SizedBox(height: 3),
+                                          Text(
+                                            avgDegFmt.isNotEmpty ? avgDegFmt : '-',
+                                            style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
 
                   // === PROJEKSİYON KARTI (Faz 2.2) ===
                   if (ti['projectedDegree'] != null && ti['projectedDegree'].toString().isNotEmpty && ti['projectedDegree'] != '-') ...[
@@ -1349,6 +1801,18 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
                         ),
                       );
                     }),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: Text(
+                        '* İdman temposu her zaman yarış performansını yansıtmaz. Birçok antrenör atı idmanda kasıtlı olarak rahat tempoda koşturur.',
+                        style: TextStyle(
+                          color: isDark ? Colors.grey[600] : Colors.grey[500],
+                          fontSize: 8,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
                   ],
 
                   // === MESAFE SÜRELERİ GRID ===

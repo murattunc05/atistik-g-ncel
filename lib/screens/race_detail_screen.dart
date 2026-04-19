@@ -1,33 +1,47 @@
 import 'package:flutter/material.dart';
 import '../models/daily_race_model.dart';
+import '../theme/app_theme.dart';
 import 'race_analysis_screen.dart';
 
-class RaceDetailScreen extends StatelessWidget {
+class RaceDetailScreen extends StatefulWidget {
   final DailyRaceModel race;
 
   const RaceDetailScreen({super.key, required this.race});
 
   @override
+  State<RaceDetailScreen> createState() => _RaceDetailScreenState();
+}
+
+class _RaceDetailScreenState extends State<RaceDetailScreen> {
+  int? _expandedIndex;
+
+  DailyRaceModel get race => widget.race;
+
+  @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
+      backgroundColor: isDark ? AppTheme.backgroundLight : AppTheme.backgroundLightMode,
       appBar: AppBar(
         title: Text('${race.time} - ${race.city}'),
       ),
       body: Column(
         children: [
-          _buildInfoCard(context),
+          _buildInfoCard(context, isDark),
           Expanded(
-            child: _buildHorseList(),
+            child: _buildHorseList(context, isDark),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoCard(BuildContext context) {
+  Widget _buildInfoCard(BuildContext context, bool isDark) {
     return Card(
       margin: const EdgeInsets.all(16.0),
-      elevation: 4,
+      elevation: isDark ? 4 : 2,
+      color: isDark ? AppTheme.backgroundDark : Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,34 +64,48 @@ class RaceDetailScreen extends StatelessWidget {
                 _buildInfoItem(Icons.emoji_events, race.prize),
               ],
             ),
-              ],
-            ),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // At listesini hazırla
-                  final horses = race.horses.map((h) => {
+                  // At listesini Map olarak hazırla - backend için tüm gerekli bilgiler
+                  final horseMaps = race.horses.map((h) => {
                     'name': h.name,
+                    'no': h.no,
                     'detailLink': h.detailLink,
+                    'jockey': h.jockey,
+                    'weight': h.weight,
+                    'father': h.father,   // FAZ 4.6: Pedigri analizi için
                   }).toList();
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RaceAnalysisScreen(horses: horses),
+                      builder: (context) => RaceAnalysisScreen(
+                        horses: horseMaps,
+                        raceName: race.raceName,
+                        distance: race.distance,
+                        trackType: race.trackType,
+                        prize: race.prize,
+                        raceType: race.raceName, // Maiden, Şartlı vs. raceName içinde
+                        raceId: race.raceId,  // İdman bilgileri için
+                      ),
                     ),
                   );
                 },
-                icon: const Icon(Icons.analytics_outlined),
-                label: const Text('DETAYLI ANALİZ ET'),
+                icon: const Icon(Icons.psychology),
+                label: const Text('ANALİZ ET'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigoAccent,
+                  backgroundColor: AppTheme.primary,
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -101,10 +129,13 @@ class RaceDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHorseList() {
+  Widget _buildHorseList(BuildContext context, bool isDark) {
     if (race.horses.isEmpty) {
-      return const Center(
-        child: Text('Bu koşu için at listesi bulunamadı.'),
+      return Center(
+        child: Text(
+          'Bu koşu için at listesi bulunamadı.',
+          style: TextStyle(color: isDark ? Colors.grey : Colors.grey[600]),
+        ),
       );
     }
 
@@ -113,208 +144,241 @@ class RaceDetailScreen extends StatelessWidget {
       itemCount: race.horses.length,
       itemBuilder: (context, index) {
         final horse = race.horses[index];
-        return Card(
-          color: const Color(0xFF202022),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Theme(
-            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-            child: ExpansionTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.redAccent,
-                foregroundColor: Colors.white,
-                child: Text(
-                  horse.no,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              title: RichText(
-                text: TextSpan(
-                  text: horse.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                  children: [
-                    if (horse.age.isNotEmpty)
-                      TextSpan(
-                        text: ' (${horse.age})',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          color: Colors.white70,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              subtitle: Text(
-                horse.jockey,
-                style: const TextStyle(color: Colors.grey),
-              ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '${horse.weight} kg',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  if (horse.agf.isNotEmpty)
-                    Text(
-                      horse.agf,
-                      style: const TextStyle(
-                        color: Colors.greenAccent,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                ],
-              ),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Divider(color: Colors.white24),
-                      const SizedBox(height: 8),
-                      
-                      // Row 1: Origin
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Orijin',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '${horse.mother} - ${horse.father}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      
-                      // Row 2: Trainer
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Antrenör',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            horse.trainer.isNotEmpty ? horse.trainer : '-',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // Row 2: Critical Stats (HP | KGS | s20)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildFocusStat('HP', horse.hp),
-                          _buildFocusStat('KGS', horse.kgs),
-                          _buildFocusStat('s20', horse.s20),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // Row 3: Performance (Last 6 & Degree)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'Son 6: ',
-                                  style: TextStyle(color: Colors.grey, fontSize: 14),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    _formatLast6(horse.last6),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Derece: ',
-                                style: TextStyle(color: Colors.grey, fontSize: 14),
-                              ),
-                              Text(
-                                horse.bestRating.isNotEmpty ? horse.bestRating : '-',
-                                style: const TextStyle(
-                                  color: Colors.amber,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+        return _buildHorseCard(horse, index, isDark);
       },
     );
   }
 
-  Widget _buildFocusStat(String label, String value) {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildHorseCard(RunningHorse horse, int index, bool isDark) {
+    final isExpanded = _expandedIndex == index;
+    
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200),
+        boxShadow: isDark ? null : [
+          BoxShadow(color: Colors.grey.shade200, blurRadius: 4, offset: const Offset(0, 2)),
+        ],
+      ),
+      child: Column(
         children: [
-          Text(
-            '$label: ',
-            style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold, fontSize: 13),
+          InkWell(
+            onTap: () => setState(() => _expandedIndex = isExpanded ? null : index),
+            borderRadius: BorderRadius.circular(14),
+            child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      // Rank badge
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            horse.no,
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      
+                      // Name and jockey - use Expanded to take remaining space
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              horse.name,
+                              style: TextStyle(
+                                color: isDark ? Colors.white : Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            const SizedBox(height: 3),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (horse.age.isNotEmpty) ...[
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                    decoration: BoxDecoration(
+                                      color: isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    child: Text(
+                                      horse.age, 
+                                      style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 9),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                ],
+                                Expanded(
+                                  child: Text(
+                                    horse.jockey,
+                                    style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 11),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      const SizedBox(width: 8),
+                      
+                      // Weight info - fixed width to prevent overflow
+                      SizedBox(
+                        width: 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              _cleanWeight(horse.weight),
+                              style: TextStyle(
+                                color: isDark ? Colors.white : Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            if (horse.agf.isNotEmpty && !horse.agf.contains('Fazla'))
+                              Text(
+                                horse.agf,
+                                style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 11),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                          ],
+                        ),
+                      ),
+                      
+                      const SizedBox(width: 4),
+                      Icon(isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.grey[600], size: 20),
+                    ],
+                  ),
+                ),
+              ),
+              
+              if (isExpanded) _buildExpandedHorseDetails(horse, isDark),
+            ],
           ),
-          Text(
-            value.isNotEmpty ? value : '-',
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+        );
+  }
+
+
+  Widget _buildExpandedHorseDetails(RunningHorse horse, bool isDark) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade200)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 12),
+          
+          // Row 1: Orijin ve Antrenör
+          Row(
+            children: [
+              Expanded(
+                child: _buildDetailBox(Icons.family_restroom, 'Orijin', '${horse.mother} - ${horse.father}', isDark),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildDetailBox(Icons.person, 'Antrenör', horse.trainer.isNotEmpty ? horse.trainer : '-', isDark),
+              ),
+            ],
           ),
+          
+          const SizedBox(height: 10),
+          
+          // Row 2: HP, KGS, s20 - Grid görünümü
+          Row(
+            children: [
+              Expanded(child: _buildMiniStatBox('HP', horse.hp, isDark)),
+              Expanded(child: _buildMiniStatBox('KGS', horse.kgs, isDark)),
+              Expanded(child: _buildMiniStatBox('s20', horse.s20, isDark)),
+            ],
+          ),
+          
+          const SizedBox(height: 10),
+          
+          // Row 3: Son 6 ve Derece
+          Row(
+            children: [
+              Expanded(
+                child: _buildDetailBox(Icons.history, 'Son 6', _formatLast6(horse.last6), isDark),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildDetailBox(Icons.timer, 'Derece', horse.bestRating.isNotEmpty ? horse.bestRating : '-', isDark, valueColor: AppTheme.primary),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailBox(IconData icon, String label, String value, bool isDark, {Color? valueColor}) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 16, color: AppTheme.primary),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 9)),
+                Text(
+                  value,
+                  style: TextStyle(
+                    color: valueColor ?? (isDark ? Colors.white : Colors.black87),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMiniStatBox(String label, String value, bool isDark) {
+    return Container(
+      margin: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Column(
+        children: [
+          Text(value.isNotEmpty ? value : '-', style: TextStyle(color: AppTheme.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 2),
+          Text(label, style: TextStyle(color: isDark ? Colors.grey[500] : Colors.grey[600], fontSize: 9)),
         ],
       ),
     );
@@ -323,5 +387,16 @@ class RaceDetailScreen extends StatelessWidget {
   String _formatLast6(String last6) {
     if (last6.isEmpty) return '-';
     return last6.split('').join('-');
+  }
+
+  String _cleanWeight(String weight) {
+    if (weight.isEmpty) return '-';
+    // "56+1.80Fazla Kilo" gibi gelen değerleri temizle, sadece ilk sayıyı al
+    final match = RegExp(r'^(\d+)').firstMatch(weight);
+    if (match != null) {
+      return '${match.group(1)} kg';
+    }
+    // Eğer sayı bulamazsan olduğu gibi döndür
+    return weight.replaceAll('Fazla Kilo', '').replaceAll('kg', '').trim() + ' kg';
   }
 }
