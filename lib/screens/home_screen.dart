@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../main.dart';
 import '../widgets/daily_race_section_widget.dart';
+import 'submit_results_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,27 +12,41 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Atistik',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
+          TextButton(
+            onPressed: () => _openSubmitResults(context),
+            child: Text(
+              'Sonuç Gir',
+              style: TextStyle(
+                color: AppTheme.primary,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              scaffoldKey.currentState?.openEndDrawer();
+              _scaffoldKey.currentState?.openEndDrawer();
             },
           ),
         ],
       ),
       endDrawer: _buildSettingsDrawer(context, isDark),
+
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -56,7 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _openSubmitResults(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SubmitResultsScreen()),
+    );
+  }
+
   Widget _buildDateLocationRow(BuildContext context, bool isDark) {
+
     final now = DateTime.now();
     final formattedDate = "${now.day}.${now.month}.${now.year}";
     final dayNames = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];

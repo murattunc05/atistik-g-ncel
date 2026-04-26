@@ -31,9 +31,11 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
   bool _isLoading = true;
   String? _error;
   List<dynamic> _results = [];
+  List<dynamic> _previousResults = []; // Karşılaştırma için önceki analiz sonucu
+  bool _isRefreshing = false;           // Yenile butonunu devre dışı bırakmak için
   double _processTime = 0;
   late AnimationController _animController;
-  int? _expandedIndex; // Artık kullanılmıyor ama referans kalmışsa hata vermesin
+  int? _expandedIndex;
 
   @override
   void initState() {
@@ -60,13 +62,15 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
           'no': h['no']?.toString() ?? '',
           'jockey': h['jockey']?.toString() ?? '',
           'weight': h['weight']?.toString() ?? '',
-          'father': h['father']?.toString() ?? '',   // FAZ 4.6: Pedigri analizi için
-          'hp': h['hp']?.toString() ?? '',           // FAZ 5.2: Handikap Puanı
-          'agf': h['agf']?.toString() ?? '',         // FAZ 5.2: AGF
+          'father': h['father']?.toString() ?? '',
+          'hp': h['hp']?.toString() ?? '',
+          'agf': h['agf']?.toString() ?? '',
+          'trainer': h['trainer']?.toString() ?? '',
         }).toList(),
         targetDistance: widget.distance,
         targetTrack: widget.trackType,
-        raceId: widget.raceId,  // İdman bilgileri için
+        raceId: widget.raceId,
+        raceType: widget.raceType,
       );
 
       if (mounted) {
@@ -75,11 +79,13 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
             _results = result['results'] ?? [];
             _processTime = (result['processTime'] as num?)?.toDouble() ?? 0;
             _isLoading = false;
+            _isRefreshing = false;
           });
         } else {
           setState(() {
             _error = result['error'] ?? 'Bilinmeyen hata';
             _isLoading = false;
+            _isRefreshing = false;
           });
         }
       }
@@ -88,9 +94,141 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
         setState(() {
           _error = e.toString();
           _isLoading = false;
+          _isRefreshing = false;
         });
       }
     }
+  }
+
+  /// Cache'i temizleyip yeniden analiz çek, sonra karşılaştırma göster
+  Future<void> _forceRefresh() async {
+    if (_isRefreshing || _isLoading) return;
+    setState(() {
+      _previousResults = List.from(_results);
+      _isRefreshing = true;
+      _isLoading = true;
+      _error = null;
+    });
+    if (widget.raceId.isNotEmpty) {
+      await TjkApiService.clearCache(widget.raceId);
+    }
+    await _fetchAnalysis();
+    if (mounted && _previousResults.isNotEmpty && _results.isNotEmpty) {
+      _showComparisonDialog();
+    }
+  }
+
+  /// Eski vs Yeni sıralama karşılaştırma dialogu
+  void _showComparisonDialog() {
+    // Eski sıralamayı map'e dönüştür: atAdı → rank
+    final oldRanks = <String, int>{};
+    for (int i = 0; i < _previousResults.length; i++) {
+      final name = (_previousResults[i]['horse_name'] ?? '').toString();
+      oldRanks[name] = i + 1;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        final isDark = Theme.of(ctx).brightness == Brightness.dark;
+        final bg = isDark ? const Color(0xFF1E1E2E) : Colors.white;
+        return Container(
+          decoration: BoxDecoration(
+            color: bg,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 36, height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text('Yeni Analiz Karşılaştırması',
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text('Önce: eski sıra, Sonra: yeni sıra',
+                  style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+              const SizedBox(height: 16),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: MediaQuery.of(ctx).size.height * 0.55),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _results.length,
+                  itemBuilder: (_, i) {
+                    final horse = _results[i];
+                    final name = (horse['horse_name'] ?? '').toString();
+                    final newRank = i + 1;
+                    final oldRank = oldRanks[name];
+                    final delta = oldRank != null ? oldRank - newRank : null;
+
+                    Color deltaColor;
+                    String deltaText;
+                    IconData deltaIcon;
+                    if (delta == null) {
+                      deltaColor = Colors.grey;
+                      deltaText = 'yeni';
+                      deltaIcon = Icons.fiber_new_rounded;
+                    } else if (delta > 0) {
+                      deltaColor = Colors.green;
+                      deltaText = '+$delta';
+                      deltaIcon = Icons.arrow_upward_rounded;
+                    } else if (delta < 0) {
+                      deltaColor = Colors.red;
+                      deltaText = '$delta';
+                      deltaIcon = Icons.arrow_downward_rounded;
+                    } else {
+                      deltaColor = Colors.grey;
+                      deltaText = '=';
+                      deltaIcon = Icons.remove_rounded;
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 28,
+                            child: Text('$newRank.',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: newRank <= 3 ? AppTheme.primary : null)),
+                          ),
+                          Expanded(
+                            child: Text(name,
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                          ),
+                          if (oldRank != null)
+                            Text('$oldRank→$newRank  ',
+                                style: TextStyle(fontSize: 11, color: Colors.grey[500])),
+                          Icon(deltaIcon, size: 16, color: deltaColor),
+                          const SizedBox(width: 4),
+                          Text(deltaText,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: deltaColor)),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -111,7 +249,20 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
         ),
         title: Text('Yarış Analizi', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: textColor)),
         actions: [
-          if (!_isLoading && _error == null)
+          if (!_isLoading && _error == null) ...
+          [
+            // Yenile ikonu
+            IconButton(
+              icon: _isRefreshing
+                  ? SizedBox(
+                      width: 18, height: 18,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: AppTheme.primary))
+                  : Icon(Icons.refresh_rounded,
+                      color: AppTheme.primary, size: 22),
+              tooltip: 'Yeniden Analiz Et',
+              onPressed: _isRefreshing ? null : _forceRefresh,
+            ),
             Container(
               margin: const EdgeInsets.only(right: 12),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -119,8 +270,10 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
                 color: isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text('${_processTime}s', style: TextStyle(color: subtextColor, fontSize: 12)),
+              child: Text('${_processTime}s',
+                  style: TextStyle(color: subtextColor, fontSize: 12)),
             ),
+          ],
         ],
       ),
       body: _isLoading 

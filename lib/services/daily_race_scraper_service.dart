@@ -8,10 +8,22 @@ class DailyRaceScraperService {
   static const String _programUrl = '$_baseUrl/TR/YarisSever/Info/Page/GunlukYarisProgrami';
   static const String _cityUrl = '$_baseUrl/TR/YarisSever/Info/Sehir/GunlukYarisProgrami';
 
+  // Daha kapsamlı header'lar - TJK bazen bağlantıyı kesiyor
   static final Map<String, String> _headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Referer': 'https://www.tjk.org/TR/YarisSever/Info/Page/GunlukYarisProgrami',
-    'X-Requested-With': 'XMLHttpRequest',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Referer': 'https://www.tjk.org/',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120"',
+    'Sec-Ch-Ua-Mobile': '?0',
+    'Sec-Ch-Ua-Platform': '"Windows"',
+    'Upgrade-Insecure-Requests': '1',
+    'Cache-Control': 'max-age=0',
   };
 
   /// Fetches the list of cities that have races on the given date.
@@ -24,7 +36,9 @@ class DailyRaceScraperService {
       
       print('Fetching cities from: $uri');
 
-      final response = await http.get(uri, headers: _headers);
+      // Timeout ekle
+      final response = await http.get(uri, headers: _headers)
+          .timeout(const Duration(seconds: 30));
       print('Cities response status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
@@ -86,15 +100,9 @@ class DailyRaceScraperService {
       
       print('Fetching races from: $uri');
 
-      // Updated headers to prevent login redirect
-      final headers = {
-        'Host': 'www.tjk.org',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-        'Referer': 'https://www.tjk.org/TR/YarisSever/Info/Page/GunlukYarisProgrami',
-        'X-Requested-With': 'XMLHttpRequest',
-      };
-
-      final response = await http.get(uri, headers: headers);
+      // Aynı kapsamlı header'ları kullan
+      final response = await http.get(uri, headers: _headers)
+          .timeout(const Duration(seconds: 30));
       print('Races response status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
@@ -127,12 +135,40 @@ class DailyRaceScraperService {
     var matches = raceHeaderRegex.allMatches(fullText).toList();
     
     print('Found ${matches.length} races');
+    
+    // Find race IDs from anchor links (format: #221703)
+    // TJK uses anchor links like href="...#221703" for each race
+    var raceIdMap = <String, String>{};  // Map: raceNo -> raceId
+    var allLinks = document.querySelectorAll('a[href*="#"]');
+    for (var link in allLinks) {
+      var href = link.attributes['href'] ?? '';
+      // Extract the anchor part (after #)
+      if (href.contains('#')) {
+        var anchor = href.split('#').last;
+        // Check if it's a numeric race ID (typically 6 digits)
+        if (anchor.isNotEmpty && RegExp(r'^\d{5,7}$').hasMatch(anchor)) {
+          // Try to find which race this belongs to by looking at the link text
+          var linkText = link.text.trim();
+          var raceMatch = RegExp(r'(\d+)\.\s*Koşu').firstMatch(linkText);
+          if (raceMatch != null) {
+            var raceNo = raceMatch.group(1)!;
+            raceIdMap[raceNo] = anchor;
+            print('Found raceId: $anchor for race $raceNo');
+          }
+        }
+      }
+    }
 
-    // PASS 1: Create race objects with basic info (number and time)
+    // PASS 1: Create race objects with basic info (number, time, and raceId)
     for (int i = 0; i < matches.length; i++) {
       var match = matches[i];
       String raceNo = match.group(1)!;
       String time = '${match.group(2)}:${match.group(3)}';
+      String raceId = raceIdMap[raceNo] ?? '';  // Get raceId from map
+      
+      if (raceId.isNotEmpty) {
+        print('Race $raceNo: raceId = $raceId');
+      }
 
       races.add(DailyRaceModel(
         time: time,
@@ -142,6 +178,7 @@ class DailyRaceScraperService {
         trackType: '',
         prize: '',
         city: cityId,
+        raceId: raceId,  // İdman bilgileri için gerekli
       ));
     }
 
@@ -324,7 +361,10 @@ class DailyRaceScraperService {
       // At İsmi: .gunluk-GunlukYarisProgrami-AtAdi a
       var nameCell = row.querySelector('.gunluk-GunlukYarisProgrami-AtAdi');
       // Try to get text from <a> tag first, if not found use cell text but be careful
-      String name = nameCell?.querySelector('a')?.text.trim() ?? '';
+      var nameAnchor = nameCell?.querySelector('a');
+      String name = nameAnchor?.text.trim() ?? '';
+      String detailLink = nameAnchor?.attributes['href'] ?? ''; // YENİ: At detay linki
+      
       if (name.isEmpty && nameCell != null) {
          // Fallback: get text but might include other garbage, try to clean
          name = nameCell.text.trim();
@@ -415,8 +455,9 @@ class DailyRaceScraperService {
           s20: s20,
           bestRating: bestRating,
           agf: agf,
+          detailLink: detailLink, // YENİ: At detay linki eklendi
         ));
-        print('At Eklendi: $name');
+        print('At Eklendi: $name (Link: $detailLink)');
       }
     }
     return horses;

@@ -6,6 +6,7 @@ class DailyRaceModel {
   String trackType;
   String prize;
   String city;
+  String raceId;  // TJK koşu kodu (idman bilgileri için)
   List<RunningHorse> horses;
 
   DailyRaceModel({
@@ -16,6 +17,7 @@ class DailyRaceModel {
     required this.distance,
     required this.trackType,
     required this.prize,
+    this.raceId = '',
     this.horses = const [],
   });
 
@@ -28,6 +30,7 @@ class DailyRaceModel {
       distance: json['distance'] ?? '',
       trackType: json['trackType'] ?? '',
       prize: json['prize'] ?? '',
+      raceId: json['raceId'] ?? '',
       horses: (json['horses'] as List<dynamic>?)
               ?.map((e) => RunningHorse.fromJson(e))
               .toList() ??
@@ -44,6 +47,7 @@ class DailyRaceModel {
       'distance': distance,
       'trackType': trackType,
       'prize': prize,
+      'raceId': raceId,
       'horses': horses.map((e) => e.toJson()).toList(),
     };
   }
@@ -65,6 +69,7 @@ class RunningHorse {
   final String s20;
   final String bestRating;
   final String agf;
+  final String detailLink; // TJK at detay sayfası linki
 
   RunningHorse({
     required this.no,
@@ -82,6 +87,7 @@ class RunningHorse {
     this.s20 = '',
     this.bestRating = '',
     this.agf = '',
+    this.detailLink = '',
   });
 
   factory RunningHorse.fromJson(Map<String, dynamic> json) {
@@ -101,6 +107,7 @@ class RunningHorse {
       s20: json['s20'] ?? '',
       bestRating: json['bestRating'] ?? '',
       agf: json['agf'] ?? '',
+      detailLink: json['detailLink'] ?? '',
     );
   }
 
@@ -121,6 +128,7 @@ class RunningHorse {
       's20': s20,
       'bestRating': bestRating,
       'agf': agf,
+      'detailLink': detailLink,
     };
   }
 }

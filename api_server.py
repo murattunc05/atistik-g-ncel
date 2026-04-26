@@ -176,6 +176,141 @@ def search_horses():
             'error': f'Beklenmeyen hata: {str(e)}'
         }), 500
 
+
+# ══════════════════════════════════════════════════════════════════
+# FAZ 7: OTOMATİK SONUÇ ÇEKME
+# ══════════════════════════════════════════════════════════════════
+
+@app.route('/api/fetch-race-results', methods=['POST'])
+def fetch_race_results():
+    """
+    Günün programındaki bir koşunun gerçek sonuçlarını otomatik çeker.
+    At geçmişinden (horse-details gibi) bitiş pozisyonlarını okur.
+
+    Body:
+      {
+        "race_date": "24.04.2026",   # Koşu tarihi (dd.mm.yyyy)
+        "race_no": "3",              # Koşu numarası
+        "horses": [
+          {"name": "ERDEK", "detailLink": "/TR/.../AtBilgileri?..."},
+          ...
+        ]
+      }
+
+    Response:
+      {
+        "success": true,
+        "results": [
+          {"horse_name": "ERDEK", "finish_pos": 1},
+          ...
+        ],
+        "race_id": "24.04.2026-3"
+      }
+    """
+    try:
+        data        = request.json
+        race_date   = data.get('race_date', '').strip()   # "24.04.2026"
+        race_no     = data.get('race_no', '').strip()     # "3"
+        horses_in   = data.get('horses', [])
+
+        if not race_date or not horses_in:
+            return jsonify({'success': False, 'error': 'race_date ve horses zorunlu'}), 400
+
+        race_id = f"{race_date}-{race_no}" if race_no else race_date
+
+        results = []
+        errors  = []
+
+        for horse in horses_in:
+            horse_name  = horse.get('name', '').strip()
+            detail_link = horse.get('detailLink', '').strip()
+
+            if not detail_link or not horse_name:
+                continue
+
+            try:
+                detail_url = urljoin(TARGET_URL, detail_link)
+                detail_url = detail_url.replace('&amp;', '&')
+
+                resp = requests.get(detail_url, headers=HEADERS, timeout=12)
+                if resp.status_code != 200:
+                    errors.append(f'{horse_name}: HTTP {resp.status_code}')
+                    continue
+
+                soup     = BeautifulSoup(resp.text, 'html.parser')
+                data_div = soup.find('div', id='dataDiv')
+                if not data_div:
+                    errors.append(f'{horse_name}: dataDiv yok')
+                    continue
+
+                race_table = data_div.find('table', id='queryTable')
+                tbody      = race_table.find('tbody', id='tbody0') if race_table else None
+                if not tbody:
+                    errors.append(f'{horse_name}: tablo yok')
+                    continue
+
+                # Tarihe göre eşleştir
+                found_pos = None
+                for row in tbody.find_all('tr'):
+                    if 'hidable' in row.get('class', []):
+                        continue
+                    cells = row.find_all('td')
+                    if len(cells) < 6:
+                        continue
+
+                    row_date = cells[0].text.strip()   # "24.04.2026"
+                    position = cells[4].text.strip()   # "1", "2", "K" vs.
+
+                    # Tarih eşleştir (gün.ay.yıl — farklı format varyantları)
+                    row_date_norm = row_date.replace('/', '.').replace('-', '.')[:10]
+                    race_date_norm = race_date.replace('/', '.').replace('-', '.')[:10]
+
+                    if row_date_norm == race_date_norm:
+                        # Koşu numarası da eşleştirmeye çalış
+                        # cells[1] genellikle şehir, bazı formatlarda race_no var
+                        # Tarihe göre buldukta ilk eşleşmeyi al (en yakın koşu)
+                        if position.isdigit():
+                            found_pos = int(position)
+                            break
+                        else:
+                            # K=Kalp, D=Disklifiye, F=Foul vb. — sona koy
+                            found_pos = 99
+                            break
+
+                if found_pos is not None:
+                    results.append({
+                        'horse_name': horse_name,
+                        'finish_pos': found_pos,
+                    })
+                else:
+                    errors.append(f'{horse_name}: {race_date} tarihli koşu geçmişte bulunamadı')
+
+            except Exception as e:
+                errors.append(f'{horse_name}: {str(e)}')
+                continue
+
+        if not results:
+            return jsonify({
+                'success': False,
+                'error': 'Hiçbir at için sonuç bulunamadı.',
+                'details': errors,
+            }), 404
+
+        # Sıralamaya göre tertle
+        results_sorted = sorted(results, key=lambda x: x['finish_pos'])
+
+        print(f'[FETCH-RESULTS] {race_id}: {len(results)} at sonucu bulundu, {len(errors)} hata')
+        return jsonify({
+            'success': True,
+            'race_id': race_id,
+            'results': results_sorted,
+            'errors':  errors,
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 @app.route('/api/horse-details', methods=['POST'])
 def get_horse_details():
     """At detay bilgilerini getir"""
@@ -897,7 +1032,22 @@ def calculate_degree_stats(races):
             'degreeScore': 50, 'trendScore': 50, 'stabilityScore': 50
         }
     
-    avg_degree = sum(degrees) / len(degrees)
+    # FAZ 6.1: Recency-Weighted Derece Ortalaması
+    # Son 3 yarışa %70, diğerlerine %30 ağırlık → son form daha belirleyici
+    if len(degrees) <= 3:
+        # 3 veya daha az yarış varsa ağırlıklı ortalama (en sons en yüksek)
+        recency_weights = [0.45, 0.35, 0.20][:len(degrees)]
+        w_total = sum(recency_weights)
+        avg_degree = sum(d * w for d, w in zip(degrees, recency_weights)) / w_total
+    else:
+        # Son 3'e %70, kalanına %30
+        recent_3 = degrees[:3]
+        older = degrees[3:]
+        recent_weights = [0.30, 0.25, 0.15]  # toplam 0.70
+        recent_avg = sum(d * w for d, w in zip(recent_3, recent_weights))
+        older_weight_each = 0.30 / len(older) if older else 0
+        older_avg = sum(d * older_weight_each for d in older)
+        avg_degree = recent_avg + older_avg
     best_degree = min(degrees)
     worst_degree = max(degrees)
     std_dev = float(np.std(degrees)) if len(degrees) > 1 else 0
@@ -1879,6 +2029,58 @@ def calculate_weight_impact(current_weight_str, last_weight_str, target_distance
 
 # ============== FAZ 4.3: GELİŞMİŞ JOKEY ANALİZİ ==============
 
+# ── Jokey adı normalizer (modül düzeyi — hem jockey_match için hem de PASS-1 filtresi için) ──
+def normalize_jockey_name(name):
+    """
+    TJK'da jokey isimleri farklı formatlarda gelebiliyor:
+      'H.Karataş'  /  'H. Karataş'  /  'Halis Karataş'  /  'H.KARATAŞ'
+    Hepsini karşılaştırılabilir forma getirir:
+      → büyük harf, Türkçe → Latin, nokta/boşluk → tek boşluk
+    """
+    if not name:
+        return ""
+    name = str(name).strip().upper()
+    tr_map = {
+        'İ': 'I', 'I': 'I', 'Ğ': 'G', 'Ü': 'U',
+        'Ş': 'S', 'Ö': 'O', 'Ç': 'C',
+        'ı': 'I', 'ğ': 'G', 'ü': 'U', 'ş': 'S', 'ö': 'O', 'ç': 'C',
+    }
+    for k, v in tr_map.items():
+        name = name.replace(k, v)
+    # Nokta ve birden fazla boşluğu tek boşluğa çevir
+    name = re.sub(r'[.\s]+', ' ', name).strip()
+    return name
+
+
+def jockey_match(j1, j2):
+    """
+    İki jokey isminin aynı kişi olup olmadığını kontrol eder.
+    Türkçe karakter ve format farklılıklarına karşı dirençli.
+      'H.Karataş' == 'Halis Karataş' == 'H KARATAS'  → True
+    """
+    n1 = normalize_jockey_name(j1)
+    n2 = normalize_jockey_name(j2)
+    if not n1 or not n2:
+        return False
+    # 1. Birebir eşleşme
+    if n1 == n2:
+        return True
+    parts1 = n1.split()
+    parts2 = n2.split()
+    if not parts1 or not parts2:
+        return False
+    surname1 = parts1[-1]
+    surname2 = parts2[-1]
+    # 2. Soyad eşleştirme (en az 4 karakter — 'KOC' gibi kısa soyadlarda yanlış match önleme)
+    if len(surname1) >= 4 and surname1 == surname2:
+        return True
+    # 3. İlk harf kısaltması + soyad: 'H KARATAS' ~ 'HALIS KARATAS'
+    if surname1 == surname2:
+        if (len(parts1[0]) == 1) or (len(parts2[0]) == 1):
+            return True
+    return False
+
+
 def calculate_jockey_score(jockey_stats, jockey_changed, training_jockey, race_jockey):
     """
     FAZ 4.3: Jokey-at uyumu, jokey değişimi ve idman jokeyi etkisini 0-100 skor üretir.
@@ -2188,6 +2390,164 @@ def calculate_pace_score(horse_style, pace_scenario):
     
     score = 50 + adjustment
     return round(max(0, min(100, score)), 1)
+
+
+# ══════════════════════════════════════════════════════════════════
+# FAZ 6.2: ANTRENÖR WIN-RATE KATMANI (K13)
+# ══════════════════════════════════════════════════════════════════
+
+_trainer_cache = {}  # { 'ANTRENOR_ADI_UPPER': { ...stats... } }
+
+
+def fetch_trainer_stats(trainer_name):
+    """
+    FAZ 6.2: TJK KosuSorgulama sayfasından antrenörün son 2 yılın
+    galibiyet istatistiklerini çeker.
+
+    Returns:
+        dict: {
+            'trainer_name', 'total_races', 'total_wins',
+            'win_rate', 'data_quality'
+        }
+    """
+    global _trainer_cache
+
+    if not trainer_name or not trainer_name.strip():
+        return None
+
+    trainer_key = trainer_name.strip().upper()
+
+    if trainer_key in _trainer_cache:
+        print(f"[TRAINER CACHE] {trainer_key} önbellekten alındı")
+        return _trainer_cache[trainer_key]
+
+    print(f"[TRAINER] {trainer_name} için istatistikler çekiliyor...")
+
+    try:
+        base_url = "https://www.tjk.org/TR/YarisSever/Query/Page/KosuSorgulama"
+        params = {
+            'QueryParameter_AntrenorIsmi': trainer_name.strip(),
+            'QueryParameter_Tarih_Start': '01.01.2024',
+            'QueryParameter_Tarih_End':   '31.12.2025',
+            'QueryParameter_SehirId':     '-1',
+        }
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "tr-TR,tr;q=0.9",
+            "Referer": "https://www.tjk.org/TR/YarisSever/Query/Page/KosuSorgulama"
+        }
+
+        response = requests.get(base_url, params=params, headers=headers, timeout=12)
+        if response.status_code != 200:
+            print(f"[TRAINER] TJK hatası: {response.status_code}")
+            _trainer_cache[trainer_key] = None
+            return None
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        table = soup.find('table', id='queryTable')
+        tbody = None
+        if table:
+            tbody = table.find('tbody', id='tbody0') or table.find('tbody')
+        if not tbody:
+            tbody = soup.find('tbody', id='tbody0')
+
+        if not tbody:
+            print(f"[TRAINER] {trainer_name} için tablo bulunamadı — veri yok")
+            result = {
+                'trainer_name': trainer_name,
+                'total_races': 0,
+                'total_wins':  0,
+                'win_rate':    0.0,
+                'data_quality': 'NONE'
+            }
+            _trainer_cache[trainer_key] = result
+            return result
+
+        rows = tbody.find_all('tr')
+        total_races = 0
+        total_wins  = 0
+
+        for row in rows:
+            if 'hidable' in row.get('class', []):
+                continue
+            cells = row.find_all('td')
+            if len(cells) < 5:
+                continue
+
+            try:
+                total_races += 1
+                # Sıralama sütunu — index değişkenlik gösterebilir.
+                # Yarış sonuçlarında genellikle cells[4] veya cells[5] bitiriş poz.
+                # Birden fazla sütunu dene: "1" veya "1." ifadesi = galibiyet
+                for col_idx in [4, 5, 3]:
+                    pos_txt = cells[col_idx].text.strip() if len(cells) > col_idx else ''
+                    pos_clean = pos_txt.replace('.', '').strip()
+                    if pos_clean == '1':
+                        total_wins += 1
+                        break
+            except Exception:
+                continue
+
+        data_quality = 'NONE' if total_races == 0 else ('LOW' if total_races < 15 else 'HIGH')
+        win_rate = round(total_wins / total_races, 3) if total_races else 0.0
+
+        result = {
+            'trainer_name': trainer_name,
+            'total_races':  total_races,
+            'total_wins':   total_wins,
+            'win_rate':     win_rate,
+            'data_quality': data_quality,
+        }
+        _trainer_cache[trainer_key] = result
+        print(f"[TRAINER] {trainer_name}: {total_races} yarış, {total_wins} galibiyet, oran={win_rate:.1%}")
+        return result
+
+    except Exception as e:
+        print(f"[TRAINER] Hata ({trainer_name}): {e}")
+        _trainer_cache[trainer_key] = None
+        return None
+
+
+def calculate_trainer_score(trainer_stats):
+    """
+    FAZ 6.2: Antrenörün galibiyet oranını 0-100 aralığında puanlar.
+
+    Returns:
+        float: 0-100 arası antrenör skoru
+    """
+    if not trainer_stats or trainer_stats.get('data_quality') == 'NONE':
+        return 50.0  # Veri yok → nötr
+
+    win_rate = trainer_stats.get('win_rate', 0.0)
+    total    = trainer_stats.get('total_races', 0)
+
+    # Az veri → orta skora çek
+    if total < 10:
+        confidence_factor = 0.6
+    elif total < 25:
+        confidence_factor = 0.85
+    else:
+        confidence_factor = 1.0
+
+    # Galibiyet oranına göre taban skor
+    if win_rate >= 0.30:
+        base = 92
+    elif win_rate >= 0.22:
+        base = 80
+    elif win_rate >= 0.15:
+        base = 65
+    elif win_rate >= 0.08:
+        base = 48
+    elif win_rate >= 0.03:
+        base = 35
+    else:
+        base = 28
+
+    # Az veriyse orta (50) değerine doğru çek
+    score = base * confidence_factor + 50.0 * (1 - confidence_factor)
+    return round(max(0.0, min(100.0, score)), 1)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -2516,7 +2876,41 @@ def calculate_pedigree_weight(horse_races, target_track, target_distance):
 
 
 
-def calculate_dynamic_weights(metrics):
+def calculate_agf_score(agf_str, all_agf_values):
+    """
+    FAZ 6.2: AGF (Asgari Ganyan Fiyatı) verisini 0-100 skoruna çevirir.
+    Düşük AGF = piyasa favorisi = yüksek kazanma ihtimali → yüksek skor.
+
+    Args:
+        agf_str (str): Atın AGF değeri (str, örn. '2.50')
+        all_agf_values (list): Koşudaki tüm geçerli AGF değerlerinin listesi
+
+    Returns:
+        float: 0-100 arası AGF skoru
+    """
+    try:
+        agf_val = float(str(agf_str).replace(',', '.').strip())
+        if agf_val <= 0:
+            return 50.0
+    except (ValueError, TypeError):
+        return 50.0
+
+    if not all_agf_values or len(all_agf_values) < 2:
+        return 50.0
+
+    min_agf = min(all_agf_values)   # En düşük = en fazla favorilenen
+    max_agf = max(all_agf_values)   # En yüksek = en az favorilenen
+
+    agf_range = max_agf - min_agf
+    if agf_range <= 0:
+        return 50.0
+
+    # Ters normalize: düşük AGF → yüksek skor
+    raw_score = ((max_agf - agf_val) / agf_range) * 100
+    return round(max(0.0, min(100.0, raw_score)), 1)
+
+
+def calculate_dynamic_weights(metrics, race_type='default'):
     """
     FAZ 4.7: Her at için veri durumuna göre 11 katmanın ağırlıklarını
     tamamen dinamik hesaplar. Toplam her zaman 1.0 (%100) olur.
@@ -2539,21 +2933,66 @@ def calculate_dynamic_weights(metrics):
 
     # ── VARSAYİLAN TEMEL AĞİRLIKLAR ────────────────────────────────────────────────
     w = {
-        'degree_avg':            0.18,  # K1: Normalize Hız Skoru
-        'degree_trend':          0.09,  # K1b: Derece trendi
+        'degree_avg':            0.16,  # K1: Normalize Hız Skoru
+        'degree_trend':          0.07,  # K1b: Derece trendi
         'degree_stability':      0.06,  # K10: İstikrar
         'training_fitness':      0.05,  # K5a: İdman zamanlama
         'training_degree_score': 0.05,  # K5b: İdman projeksiyon
         'track_suit':            0.08,  # K3: Pist uyumu
-        'form_trend':            0.08,  # K4: Form & momentum
+        'form_trend':            0.13,  # K4: Form & momentum
         'distance_suit':         0.07,  # K2: Mesafe uyumu
         'weight_impact':         0.06,  # K6: Sıklet etkisi
         'jockey_score':          0.07,  # K7: Jokey analizi
         'bounce_score':          0.06,  # K8: Dinlenme
         'pace_score':            0.03,  # K9: Tempo senaryosu
         'pedigree':              0.03,  # K11: Pedigri (baz=%3, dinamik yukarı gidebilir)
-        'hp_score':              0.09,  # FAZ 5.2 (K12): Handikap (Kalite) Sınıf Etkisi
+        'hp_score':              0.08,  # FAZ 5.2 (K12): Handikap Sınıf Etkisi
+        'agf_score':             0.00,  # FAZ 6.2 (K13): AGF Piyasa Sinyali (koşu tipine göre aktif)
+        'trainer_score':         0.00,  # FAZ 6.2 (K14): Antrenör Win-Rate (koşu tipine göre aktif)
     }
+
+    # ── FAZ 6.2: KOŞU TİPİNE ÖZEL AĞIRLIK PROFİLLERİ ──────────────────────────────
+    race_type_lower = (race_type or 'default').lower()
+
+    if any(k in race_type_lower for k in ['handikap', 'hk', 'handicap']):
+        # HANDIKAP: HP belirleyici, kilo ve derece kritik
+        w['hp_score']              = 0.15  # %8 → %15 (handikaplı koşunun özü)
+        w['weight_impact']         = 0.09  # %6 → %9  (sıklet etkisi artar)
+        w['agf_score']             = 0.07  # AGF aktif: piyasa sinyali değerli
+        w['degree_avg']            = 0.14  # Biraz düşür (HP ile kompanze)
+        w['form_trend']            = 0.10  # Düşür (HP dominant)
+        w['trainer_score']         = 0.06  # K14: Antrenör win-rate (handikapta değerli)
+        print(f"[WEIGHTS] Handikap profili aktif → HP:%15 Kilo:%9 AGF:%7 Antrenör:%6")
+
+    elif any(k in race_type_lower for k in ['maiden', 'mdn', 'md']):
+        # MAİDEN: İdman ve pedigri en değerli, derece yok veya az
+        w['pedigree']              = 0.18  # Pedigri max
+        w['training_fitness']      = 0.12  # İdman kritik
+        w['training_degree_score'] = 0.10  # İdman projeksiyon
+        w['agf_score']             = 0.10  # AGF piyasa beklentisi (data yok = piyasa bilir)
+        w['degree_avg']            = 0.08  # Az veri = düşür
+        w['form_trend']            = 0.06  # Az yarış = düşür
+        w['degree_stability']      = 0.03  # Az veri = düşür
+        w['trainer_score']         = 0.09  # K14: Antrenör kritik maiden'da (“at bilinmiyor, antrenör biliniyor”)
+        print(f"[WEIGHTS] Maiden profili aktif → Pedigri:%18 İdman:%22 AGF:%10 Antrenör:%9")
+
+    elif any(k in race_type_lower for k in ['şartlı', 'sartli', 'şartli', 'kv', 'conditions']):
+        # ŞARTLI: Form ve hız dominant, AGF orta seviye
+        w['form_trend']            = 0.16  # Form kritik
+        w['degree_avg']            = 0.18  # Hız kritik
+        w['agf_score']             = 0.05  # AGF biraz aktif
+        w['hp_score']              = 0.04  # HP şartlıda az önemli
+        w['trainer_score']         = 0.05  # K14: Antrenör şartlıda orta önem
+        print(f"[WEIGHTS] Şartlı profili aktif → Form:%16 Hız:%18 AGF:%5 Antrenör:%5")
+
+    elif any(k in race_type_lower for k in ['satış', 'satis', 'claiming']):
+        # SATIŞ: Piyasa sinyali (AGF) çok önemli, belirsizlik yüksek
+        w['agf_score']             = 0.12  # AGF max: piyasa sinyali kritik
+        w['form_trend']            = 0.14
+        w['degree_avg']            = 0.15
+        w['jockey_score']          = 0.08
+        w['trainer_score']         = 0.05  # K14: Antrenör satışta da değerli (belirsizlik yüksek)
+        print(f"[WEIGHTS] Satış profili aktif → AGF:%12 Form:%14 Antrenör:%5")
 
     # ── SENARYO: MAİDEN (İlk koşu — hiç yarış verisi yok) ───────────────────
     if total_races == 0:
@@ -2681,7 +3120,8 @@ def calculate_master_score(metrics):
         float: Güven yüzde skoru (0-1)
         str:   Güven etiketi
     """
-    weights = calculate_dynamic_weights(metrics)
+    race_type = metrics.get('_race_type', 'default')  # FAZ 6.2: Koşu tipi ağırlık profili
+    weights = calculate_dynamic_weights(metrics, race_type=race_type)
     confidence, confidence_label = calculate_data_confidence(metrics)
 
     weighted_sum  = 0.0
@@ -2839,7 +3279,8 @@ def analyze_race():
         horses = data.get('horses', [])
         target_distance = data.get('targetDistance', '')
         target_track = data.get('targetTrack', '')
-        race_id = data.get('raceId', '')  # YENİ: Koşu ID'si
+        race_id   = data.get('raceId', '')    # İdman bilgileri için koşu ID'si
+        race_type = data.get('raceType', '')   # FAZ 6.2: Koşu tipi (Handikap/Maiden/Şartlı...)
         
         if not horses:
             return jsonify({'success': False, 'error': 'At listesi boş'}), 400
@@ -2872,6 +3313,16 @@ def analyze_race():
                 concurrent.futures.wait(sire_futures)
             print(f"[ANALYZE] Pedigri verileri başarıyla önbelleğe alındı.")
 
+        # FAZ 6.2: Antrenör Win-Rate Hız Optimizasyonu (Paralel Çekim)
+        unique_trainers = list(set([h.get('trainer', '').strip() for h in horses if h.get('trainer', '').strip()]))
+        if unique_trainers:
+            print(f"[ANALYZE] {len(unique_trainers)} farklı antrenör paralel sorgulanıyor...")
+            with concurrent.futures.ThreadPoolExecutor(max_workers=7) as trainer_executor:
+                trainer_futures = [trainer_executor.submit(fetch_trainer_stats, t) for t in unique_trainers]
+                concurrent.futures.wait(trainer_futures)
+            print(f"[ANALYZE] Antrenör verileri başarıyla önbelleğe alındı.")
+
+
         # FAZ 5.2: HP (Handikap) Normalizasyonu (Pass 1 öncesi hazırlık)
         valid_hps = []
         for h in horses:
@@ -2882,6 +3333,18 @@ def analyze_race():
         race_max_hp = max(valid_hps) if valid_hps else 50
         race_min_hp = min(valid_hps) if valid_hps else 50
         hp_range = race_max_hp - race_min_hp if race_max_hp > race_min_hp else 1
+
+        # FAZ 6.2: AGF Normalizasyonu (Pass 1 öncesi hazırlık)
+        valid_agf_values = []
+        for h in horses:
+            agf_str = str(h.get('agf', '')).replace(',', '.').strip()
+            try:
+                agf_val = float(agf_str)
+                if agf_val > 0:
+                    valid_agf_values.append(agf_val)
+            except (ValueError, TypeError):
+                pass
+        print(f"[AGF] {len(valid_agf_values)} at için geçerli AGF verisi bulundu")
 
         # PASS 1: Paralel veri çekme + stil belirleme
         intermediate_horses = []  # [{ original_horse, horse_data, style, ess, ... }]
@@ -2979,26 +3442,42 @@ def analyze_race():
                     # FAZ 4.3+4.4: Jokey ve Bounce skorlarını metrics'ten ÖNCE hesapla
                     # (Jokey bilgisi aşağıda tam hesaplanacak; şimdi hızlı bir ön hesap)
                     _cur_jockey = original_horse.get('jockey', '').strip()
-                    _jockey_races = [r for r in races if _cur_jockey and _cur_jockey.strip().upper() in r.get('jockey', '').strip().upper()]
+                    _jockey_races = [r for r in races if jockey_match(r.get('jockey', ''), _cur_jockey)]
                     _jockey_wins = sum(1 for r in _jockey_races if r.get('rank') == '1')
                     _jockey_stats_pre = {
                         'totalRaces': len(_jockey_races) if _jockey_races else len(races),
                         'wins': _jockey_wins if _jockey_races else sum(1 for r in races if r.get('rank') == '1'),
                     } if _cur_jockey else None
                     _last_jockey_race = races[0].get('jockey', '').strip() if races else ''
-                    _jockey_changed_pre = bool(_cur_jockey and _last_jockey_race and _cur_jockey.upper() != _last_jockey_race.upper())
+                    _jockey_changed_pre = bool(_cur_jockey and _last_jockey_race and not jockey_match(_cur_jockey, _last_jockey_race))
                     _training_jockey = training_data.get('trainingJockey', '') if training_data else ''
                     jockey_score_val = calculate_jockey_score(_jockey_stats_pre, _jockey_changed_pre, _training_jockey, _cur_jockey)
                     
                     bounce_score_val = calculate_bounce_score(races)
                     
-                    # FAZ 5.2: HP (Handikap) Puanı Hesabı
+                    # FAZ 5.2 + FAZ 6.1: HP (Handikap) Puanı Hesabı — TERS ÇEVRİLMİŞ
+                    # Yüksek HP = ağır taşıma = DEZAVANTAJ → düşük skor
+                    # Düşük HP = hafif = AVANTAJ → yüksek skor
                     raw_hp = str(original_horse.get('hp', '')).strip()
                     horse_hp = int(raw_hp) if raw_hp.isdigit() else (race_min_hp if valid_hps else 50)
                     if not valid_hps or race_max_hp == race_min_hp:
                         hp_score_val = 50.0  # Yarışta hiç kimsede HP yoksa veya herkes eşitse
                     else:
-                        hp_score_val = round(((horse_hp - race_min_hp) / hp_range) * 100, 1)
+                        # FAZ 6.1: Ters formül — düşük HP = yüksek skor
+                        hp_base = round(((race_max_hp - horse_hp) / hp_range) * 100, 1)
+                        # Mesafe etkileşimi: uzun mesafede HP farkı daha kritik
+                        try:
+                            dist_m = int(str(target_distance).replace(' ', '').replace('m', ''))
+                        except:
+                            dist_m = 1600
+                        # 1200m → 0.85x, 1600m → 1.0x, 2000m → 1.15x, 2400m → 1.30x
+                        dist_factor = 0.85 + max(0, (dist_m - 1200)) / 2666
+                        # Mesafe etkisini uygula (merkez 50'den sapma büyür/küçülür)
+                        hp_score_val = round(50 + (hp_base - 50) * dist_factor, 1)
+                        hp_score_val = max(0.0, min(100.0, hp_score_val))
+
+                    # Arka plan loglarına ve frontend'e dönmesi için original_horse içine yedekle
+                    original_horse['_raw_hp'] = raw_hp if raw_hp else '-';
 
                     metrics_pass1 = {
                         'degree_avg': degree_stats.get('degreeScore', 50),
@@ -3018,12 +3497,15 @@ def analyze_race():
                         'pedigree': 50.0,                       # FAZ 4.6: pedigri skoru (placeholder)
                         'pedigree_weight': 0.03,                # FAZ 4.6: dinamik ağırlık (placeholder)
                         'hp_score': hp_score_val,               # FAZ 5.2: Handikap Puanı normalizasyonu
+                        'agf_score': calculate_agf_score(original_horse.get('agf', ''), valid_agf_values),  # FAZ 6.2: AGF piyasa sinyali
+                        'trainer_score': 50.0,                  # FAZ 6.2: Antrenör skoru (aşağıda güncellenecek)
                         # FAZ 4.7: calculate_dynamic_weights için meta alanlar
                         '_total_races':   len(races),
                         '_track_races':   sum(1 for r in races if target_track.lower() in r.get('track', '').lower()) if target_track else 0,
                         '_dist_races':    len(filtered_races),
                         '_has_training':  training_data is not None,
                         '_has_pedigree':  False,  # Pe4.6 sonrası güncellenecek
+                        '_race_type':     race_type,  # FAZ 6.2: Koşu tipine özel ağırlık profili
                     }
                     # FAZ 4.6: Pedigri (baba) skoru — cache'li TJK çekimi
                     sire_name = original_horse.get('father', '').strip()
@@ -3033,10 +3515,16 @@ def analyze_race():
                     )
                     pedigree_weight_val = calculate_pedigree_weight(races, target_track, target_distance)
 
-                    # metrics_pass1 güncellemesi (pedigri + meta)
+                    # metrics_pass1 güncellemesi (pedigri + antrenör + meta)
                     metrics_pass1['pedigree']        = pedigree_score_val
                     metrics_pass1['pedigree_weight'] = pedigree_weight_val
                     metrics_pass1['_has_pedigree']   = (sire_stats is not None and sire_stats.get('data_quality') != 'NONE')
+
+                    # FAZ 6.2: Antrenör skoru — önbellekten al (paralel prefetch tamamlandı)
+                    trainer_name_val = original_horse.get('trainer', '').strip()
+                    trainer_stats_val = fetch_trainer_stats(trainer_name_val) if trainer_name_val else None
+                    trainer_score_val = calculate_trainer_score(trainer_stats_val)
+                    metrics_pass1['trainer_score'] = trainer_score_val
 
                     ai_score_pass1 = calculate_ai_score(metrics_pass1)
 
@@ -3060,23 +3548,9 @@ def analyze_race():
                     print(f"[DEBUG] At: {horse_data['name']}, Mevcut Jokey: '{current_jockey}'")
                     print(f"[DEBUG] Yarış geçmişindeki jokeyler: {[r.get('jockey', '') for r in races]}")
                     
-                    # Jokey eşleştirmesi - kısmi eşleşme kullan (isim baş harfleri farklı olabilir)
-                    def jockey_match(j1, j2):
-                        if not j1 or not j2:
-                            return False
-                        j1 = j1.strip().upper()
-                        j2 = j2.strip().upper()
-                        # Birebir eşleşme
-                        if j1 == j2:
-                            return True
-                        # Kısmi eşleşme (soyad aynı mı?)
-                        parts1 = j1.split('.')
-                        parts2 = j2.split('.')
-                        if len(parts1) > 1 and len(parts2) > 1:
-                            return parts1[-1].strip() == parts2[-1].strip()
-                        return False
-                    
+                    # jockey_match() modül düzeyinde tanımlandı (normalize_jockey_name ile Türkçe uyumlu)
                     jockey_races = [r for r in races if jockey_match(r.get('jockey', ''), current_jockey)]
+
 
                     jockey_wins = sum(1 for r in jockey_races if r.get('rank') == '1')
                     if len(jockey_races) == 0 and _cur_jockey:
@@ -3115,6 +3589,8 @@ def analyze_race():
                     intermediate_horses.append({
                         'name': horse_data['name'],
                         'no': original_horse.get('no', ''),
+                        'rawHp': original_horse.get('_raw_hp', ''),  # FAZ 5.2 (UI İÇİN)
+                        'hpScore': hp_score_val,                     # FAZ 5.2 (UI İÇİN)
                         'aiScore': ai_score_pass1,   # geçici, PASS 2'de güncellenecek
                         'formIndex': {
                             'trend': 'UP' if trend_value > 0 else 'DOWN' if trend_value < 0 else 'STABLE',
@@ -3328,7 +3804,7 @@ def analyze_race():
         import math
         _scores = [h.get('aiScore', 0) for h in analyzed_horses]
         if any(s > 0 for s in _scores):
-            _temp = 12.0  # İyi kalibreli ayrışım için
+            _temp = 18.0  # FAZ 6.2: Artırıldı (12→18) — daha yumuşak dağılım, sıralama ayrışımı iyileşti
             _max_s = max(_scores)
             _exp_scores = [math.exp((s - _max_s) / _temp) for s in _scores]
             _exp_total  = sum(_exp_scores)
@@ -3352,13 +3828,51 @@ def analyze_race():
         process_time = round(time.time() - start_time, 2)
         print(f"[ANALYZE] Tamamlandı: {len(analyzed_horses)} at, {process_time}s")
         
+        # === FAZ 7: ORGANİK ML LOG (predictions.jsonl) ===
+        # Her analiz çağrısında feature vektörlerini logla.
+        # Kullanıcı gerçek sonuçları /api/submit-results ile girince label eklenir.
+        try:
+            import json as _json
+            import os as _os
+            _log_path = _os.path.join(_os.path.dirname(__file__), 'predictions.jsonl')
+            with open(_log_path, 'a', encoding='utf-8') as _lf:
+                for _h in analyzed_horses:
+                    _m = _h.get('_metrics_pass1', {})
+                    _entry = {
+                        'race_id':   race_id or f"{target_distance}_{target_track}_{int(time.time())}",
+                        'horse_name': _h.get('name', ''),
+                        'ai_score':   _h.get('aiScore', 0),
+                        'rank_pred':  _h.get('rank', 0),
+                        'race_type':  race_type or '',
+                        'distance':   target_distance or '',
+                        'track':      target_track or '',
+                        'field_size': len(analyzed_horses),
+                        'finish_pos': None,   # Kullanıcı sonra dolduracak
+                        'is_winner':  None,
+                        'ts':         int(time.time()),
+                        'features': {
+                            k: _m.get(k, 50.0)
+                            for k in [
+                                'degree_avg','degree_trend','degree_stability',
+                                'form_trend','track_suit','distance_suit',
+                                'training_fitness','training_degree_score',
+                                'weight_impact','jockey_score','bounce_score',
+                                'pace_score','pedigree','hp_score',
+                                'agf_score','trainer_score',
+                            ]
+                        }
+                    }
+                    _lf.write(_json.dumps(_entry, ensure_ascii=False) + '\n')
+        except Exception as _le:
+            print(f"[PRED LOG] Loglama hatası: {_le}")
+
         return jsonify({
             'success': True,
             'results': analyzed_horses,
             'raceInsight': race_insight,
             'targetDistance': target_distance,
             'targetTrack': target_track,
-            'paceScenario': pace_scenario,  # FAZ 4.7: Yarış seviyesi tempo
+            'paceScenario': pace_scenario,
             'processTime': process_time
         })
         
@@ -3369,7 +3883,67 @@ def analyze_race():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
-if __name__ == '__main__':
+# ══════════════════════════════════════════════════════════════════
+# FAZ 7: SONUÇ GÖNDERME (ML Label)
+# ══════════════════════════════════════════════════════════════════
+
+@app.route('/api/submit-results', methods=['POST'])
+def submit_results():
+    """
+    Kullanıcı gerçek yarış sonuçlarını girinceye kadar predictions.jsonl'daki
+    finish_pos=None satırlarını günceller.
+
+    Body:
+      {
+        "race_id": "12345",
+        "results": [
+          {"horse_name": "ERDEK", "finish_pos": 1},
+          {"horse_name": "SİMSEK YELELI", "finish_pos": 2},
+          ...
+        ]
+      }
+    """
+    try:
+        import json as _json, os as _os
+        data = request.json
+        race_id_in = str(data.get('race_id', '')).strip()
+        incoming   = {r['horse_name'].strip().upper(): r['finish_pos'] for r in data.get('results', [])}
+
+        if not race_id_in or not incoming:
+            return jsonify({'success': False, 'error': 'race_id ve results zorunlu'}), 400
+
+        log_path = _os.path.join(_os.path.dirname(__file__), 'predictions.jsonl')
+        if not _os.path.exists(log_path):
+            return jsonify({'success': False, 'error': 'predictions.jsonl bulunamadı'}), 404
+
+        lines = []
+        updated = 0
+        with open(log_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                try:
+                    entry = _json.loads(line)
+                    if str(entry.get('race_id', '')) == race_id_in:
+                        name_key = entry.get('horse_name', '').strip().upper()
+                        if name_key in incoming:
+                            pos = incoming[name_key]
+                            entry['finish_pos'] = pos
+                            entry['is_winner']  = 1 if pos == 1 else 0
+                            updated += 1
+                    lines.append(_json.dumps(entry, ensure_ascii=False))
+                except Exception:
+                    lines.append(line.strip())
+
+        with open(log_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(lines) + '\n')
+
+        print(f"[SUBMIT] {race_id_in}: {updated} at güncellendi")
+        return jsonify({'success': True, 'updated': updated})
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+
     import os
     port = int(os.environ.get('PORT', 5000))
     print("TJK API Server başlatılıyor...")
