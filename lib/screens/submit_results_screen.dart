@@ -176,8 +176,19 @@ class _SubmitResultsScreenState extends State<SubmitResultsScreen>
     if (!mounted) return;
 
     if (resp['success'] == true) {
+      // FAZ 7.3: race_id çözümleme — yarış bittiyse TJK HTML değişmiş olabilir
+      // ve scraper race_id'yi boş parse etmiş olabilir. Backend lookup ile çöz.
+      String resolvedId = race.raceId.isNotEmpty ? race.raceId : '';
+      if (resolvedId.isEmpty) {
+        final resolved = await TjkApiService.resolveRaceId(
+          date: raceDate,
+          raceNo: race.raceNo,
+        );
+        resolvedId = resolved ?? (resp['race_id'] ?? '$raceDate-${race.raceNo}');
+      }
+      if (!mounted) return;
       setState(() {
-        _raceId  = race.raceId.isNotEmpty ? race.raceId : (resp['race_id'] ?? '$raceDate-${race.raceNo}');
+        _raceId  = resolvedId;
         _results = (resp['results'] as List).cast<Map<String, dynamic>>();
         _fetching = false;
       });

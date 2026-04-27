@@ -10,6 +10,8 @@ class RaceAnalysisScreen extends StatefulWidget {
   final String prize;
   final String raceType; // maiden, şartlı, handikap vs.
   final String raceId;   // YENİ: İdman bilgileri için koşu ID'si
+  final String raceDate; // FAZ 7: ML log için koşu tarihi (dd.MM.yyyy)
+  final String raceNo;   // FAZ 7: ML log için koşu numarası
 
   const RaceAnalysisScreen({
     super.key,
@@ -20,6 +22,8 @@ class RaceAnalysisScreen extends StatefulWidget {
     this.prize = '',
     this.raceType = '',
     this.raceId = '',
+    this.raceDate = '',
+    this.raceNo = '',
   });
 
   @override
@@ -71,6 +75,8 @@ class _RaceAnalysisScreenState extends State<RaceAnalysisScreen>
         targetTrack: widget.trackType,
         raceId: widget.raceId,
         raceType: widget.raceType,
+        raceDate: widget.raceDate,  // FAZ 7
+        raceNo: widget.raceNo,      // FAZ 7
       );
 
       if (mounted) {

@@ -408,7 +408,10 @@ class _DailyRaceSectionWidgetState extends State<DailyRaceSectionWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RaceDetailScreen(race: race),
+                      builder: (context) => RaceDetailScreen(
+                        race: race,
+                        raceDate: "${_selectedDate.day.toString().padLeft(2, '0')}.${_selectedDate.month.toString().padLeft(2, '0')}.${_selectedDate.year}",
+                      ),
                     ),
                   );
                 },

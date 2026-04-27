@@ -5,8 +5,9 @@ import 'race_analysis_screen.dart';
 
 class RaceDetailScreen extends StatefulWidget {
   final DailyRaceModel race;
+  final String raceDate; // FAZ 7: ML log için (dd.MM.yyyy format)
 
-  const RaceDetailScreen({super.key, required this.race});
+  const RaceDetailScreen({super.key, required this.race, this.raceDate = ''});
 
   @override
   State<RaceDetailScreen> createState() => _RaceDetailScreenState();
@@ -91,7 +92,9 @@ class _RaceDetailScreenState extends State<RaceDetailScreen> {
                         trackType: race.trackType,
                         prize: race.prize,
                         raceType: race.raceName, // Maiden, Şartlı vs. raceName içinde
-                        raceId: race.raceId,  // İdman bilgileri için
+                        raceId: race.raceId,     // İdman bilgileri için
+                        raceDate: widget.raceDate, // FAZ 7
+                        raceNo: race.raceNo,       // FAZ 7
                       ),
                     ),
                   );

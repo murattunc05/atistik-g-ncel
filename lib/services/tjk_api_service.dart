@@ -131,6 +131,8 @@ class TjkApiService {
     String targetTrack = '',
     String raceId = '',
     String raceType = '',
+    String raceDate = '',   // FAZ 7: ML log için (dd.MM.yyyy)
+    String raceNo = '',     // FAZ 7: ML log için
   }) async {
     if (raceId.isNotEmpty) {
       // 1. RAM kontrol
@@ -154,6 +156,8 @@ class TjkApiService {
           'targetTrack': targetTrack,
           'raceId': raceId,
           'raceType': raceType,
+          'raceDate': raceDate,   // FAZ 7
+          'raceNo': raceNo,       // FAZ 7
         }),
       ).timeout(const Duration(seconds: 60));
 
@@ -186,6 +190,28 @@ class TjkApiService {
     final prefs = await SharedPreferences.getInstance();
     final keys = prefs.getKeys().where((k) => k.startsWith(_prefPrefix) || k.startsWith(_prefTsPrefix));
     for (final k in keys) prefs.remove(k);
+  }
+
+  /// FAZ 7.3: predictions.jsonl'dan date+raceNo ile numeric race_id çözümle
+  /// Yarış bittiğinde TJK HTML değiştiğinden scraper boş race_id döndürebilir.
+  /// Bu metod backend'deki /api/resolve-race-id endpoint'ini kullanarak
+  /// daha önce analiz yapılan koşunun numeric ID'sini alır.
+  static Future<String?> resolveRaceId({
+    required String date,    // dd.MM.yyyy
+    required String raceNo,
+  }) async {
+    try {
+      final uri = Uri.parse('$baseUrl/api/resolve-race-id')
+          .replace(queryParameters: {'date': date, 'raceNo': raceNo});
+      final response = await http.get(uri).timeout(const Duration(seconds: 10));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        if (data['success'] == true) return data['race_id']?.toString();
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Yarış arama
