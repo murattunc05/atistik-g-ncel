@@ -201,11 +201,28 @@ class _SubmitResultsScreenState extends State<SubmitResultsScreen>
     if (_results.isEmpty || _raceId == null) return;
     setState(() { _submitting = true; _submitError = null; });
 
-    final resp = await TjkApiService.submitResults(raceId: _raceId!, results: _results);
+    final d = _selectedDate;
+    final raceDate = '${d.day.toString().padLeft(2, '0')}.${d.month.toString().padLeft(2, '0')}.${d.year}';
+
+    final resp = await TjkApiService.submitResults(
+      raceId: _raceId!,
+      results: _results,
+      raceDate: raceDate,                         // FAZ 7.4: fallback
+      raceNo: _selectedRace?.raceNo ?? '',         // FAZ 7.4: fallback
+    );
     if (!mounted) return;
 
     if (resp['success'] == true) {
-      setState(() { _submitting = false; _submitted = true; });
+      final updated = resp['updated'] as int? ?? 0;
+      if (updated > 0) {
+        setState(() { _submitting = false; _submitted = true; });
+      } else {
+        // Backend eşleşme bulamadı — kullanıcıyı uyar
+        setState(() {
+          _submitting = false;
+          _submitError = resp['warning'] ?? 'Bu koşu için analiz kaydı bulunamadı. Önce analiz yapın.';
+        });
+      }
     } else {
       setState(() { _submitting = false; _submitError = resp['error'] ?? 'Gönderim hatası.'; });
     }

@@ -314,9 +314,13 @@ class TjkApiService {
   /// FAZ 7: Gerçek yarış sonuçlarını ML eğitimi için gönder
   /// [raceId] — analyze_race'de backend'in kaydettiği race_id
   /// [results] — [{'horse_name': 'ERDEK', 'finish_pos': 1}, ...]
+  /// [raceDate] — FAZ 7.4: fallback eşleşme için (dd.MM.yyyy)
+  /// [raceNo] — FAZ 7.4: fallback eşleşme için
   static Future<Map<String, dynamic>> submitResults({
     required String raceId,
     required List<Map<String, dynamic>> results,
+    String raceDate = '',
+    String raceNo = '',
   }) async {
     try {
       final response = await http.post(
@@ -324,6 +328,8 @@ class TjkApiService {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'race_id': raceId,
+          'race_date': raceDate,   // FAZ 7.4: fallback
+          'race_no': raceNo,       // FAZ 7.4: fallback
           'results': results,
         }),
       );
